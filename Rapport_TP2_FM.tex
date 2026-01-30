@@ -1,0 +1,887 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[french]{babel}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{geometry}
+\usepackage{fancyhdr}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{float}
+
+\geometry{left=2.5cm, right=2.5cm, top=2.5cm, bottom=2.5cm}
+
+% Configuration pour le code MATLAB
+\lstset{
+    language=Matlab,
+    basicstyle=\ttfamily\small,
+    keywordstyle=\color{blue},
+    commentstyle=\color{green!60!black},
+    stringstyle=\color{red},
+    numbers=left,
+    numberstyle=\tiny\color{gray},
+    frame=single,
+    breaklines=true,
+    captionpos=b
+}
+
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{TP 2 : Modulation FM}
+\lhead{UFR/SEA}
+\rfoot{Page \thepage}
+
+\begin{document}
+
+\begin{titlepage}
+    \centering
+    \vspace*{2cm}
+    
+    {\LARGE \textbf{TP 2 : Modulation FM}}\\
+    \vspace{1cm}
+    {\Large Traitement du Signal}\\
+    \vspace{2cm}
+    
+    {\large UFR/SEA}\\
+    \vspace{0.5cm}
+    {\large Année académique 2025-2026}\\
+    \vspace{3cm}
+    
+    {\large Groupe 4}\\
+    \vspace{2cm}
+    
+    {\large \today}
+    
+\end{titlepage}
+
+\tableofcontents
+\newpage
+
+\section{Préparation}
+
+\subsection{Expression d'un signal modulé FM et de sa fréquence instantanée}
+
+Un signal modulé en fréquence (FM) s'écrit sous la forme générale :
+
+\begin{equation}
+    s_{FM}(t) = A_c \cos\left(2\pi f_c t + \varphi(t)\right)
+\end{equation}
+
+où :
+\begin{itemize}
+    \item $A_c$ : amplitude de la porteuse
+    \item $f_c$ : fréquence de la porteuse
+    \item $\varphi(t)$ : phase instantanée
+\end{itemize}
+
+La phase instantanée est définie par :
+
+\begin{equation}
+    \varphi(t) = 2\pi K_f \int_{0}^{t} x(\tau) \, d\tau
+\end{equation}
+
+où $K_f$ est la constante de sensibilité en fréquence (en Hz/V) et $x(t)$ est le signal modulant.
+
+\vspace{0.5cm}
+
+La \textbf{fréquence instantanée} $f_i(t)$ est définie comme la dérivée de la phase totale par rapport au temps :
+
+\begin{equation}
+    f_i(t) = \frac{1}{2\pi} \frac{d}{dt}\left(2\pi f_c t + \varphi(t)\right) = f_c + K_f \cdot x(t)
+\end{equation}
+
+La fréquence instantanée varie donc autour de la fréquence porteuse $f_c$ en fonction du signal modulant $x(t)$.
+
+\subsection{Cas du signal modulant sinusoïdal}
+
+Dans le cas où le signal modulant est une sinusoïde :
+
+\begin{equation}
+    x(t) = A_x \cos(2\pi f_x t)
+\end{equation}
+
+\subsubsection{Fréquence instantanée}
+
+La fréquence instantanée devient :
+
+\begin{equation}
+    f_i(t) = f_c + K_f \cdot A_x \cos(2\pi f_x t) = f_c + \Delta f \cos(2\pi f_x t)
+\end{equation}
+
+où $\Delta f = K_f \cdot A_x$ est appelée la \textbf{déviation maximale en fréquence}.
+
+\subsubsection{Indice de modulation}
+
+L'\textbf{indice de modulation} $\beta$ est défini par :
+
+\begin{equation}
+    \beta = \frac{\Delta f}{f_x}
+\end{equation}
+
+où $f_x$ est la fréquence du signal modulant.
+
+\subsubsection{Relation entre $K_f$ et $\Delta f$}
+
+De la définition de la déviation en fréquence, on obtient :
+
+\begin{equation}
+    \Delta f = K_f \cdot A_x \quad \Rightarrow \quad K_f = \frac{\Delta f}{A_x}
+\end{equation}
+
+L'indice de modulation peut également s'écrire :
+
+\begin{equation}
+    \beta = \frac{K_f \cdot A_x}{f_x}
+\end{equation}
+
+
+
+\subsection{Différence entre modulation FM "NFM" et "WFM"}
+
+Il existe deux types principaux de modulation FM selon la valeur de l'indice de modulation $\beta$ :
+
+\subsubsection{NFM (Narrow Band FM - FM à bande étroite)}
+
+\begin{itemize}
+    \item \textbf{Condition :} $\beta \ll 1$ (typiquement $\beta < 0.5$)
+    \item \textbf{Bande passante :} $BW \approx 2 f_x$
+    \item \textbf{Caractéristiques :}
+    \begin{itemize}
+        \item Occupation spectrale réduite
+        \item Efficacité spectrale élevée
+        \item Qualité audio limitée
+    \end{itemize}
+    \item \textbf{Applications :}
+    \begin{itemize}
+        \item Communications radio bidirectionnelles
+        \item Radio amateur
+        \item Communications professionnelles (police, pompiers)
+    \end{itemize}
+\end{itemize}
+
+\subsubsection{WFM (Wide Band FM - FM à large bande)}
+
+\begin{itemize}
+    \item \textbf{Condition :} $\beta \gg 1$ (typiquement $\beta > 1$)
+    \item \textbf{Bande passante :} $BW \approx 2\Delta f$
+    \item \textbf{Caractéristiques :}
+    \begin{itemize}
+        \item Occupation spectrale importante
+        \item Excellente qualité audio
+        \item Meilleure résistance au bruit
+        \item Rapport signal/bruit amélioré
+    \end{itemize}
+    \item \textbf{Applications :}
+    \begin{itemize}
+        \item Radio FM commerciale (88-108 MHz)
+        \item Diffusion audio haute qualité
+        \item Télévision analogique (son)
+    \end{itemize}
+\end{itemize}
+
+\subsection{Bande de Carson}
+
+La \textbf{règle de Carson} permet d'estimer la bande passante nécessaire pour transmettre un signal modulé en FM. Elle stipule que 98\% de la puissance du signal FM est contenue dans une bande de fréquence donnée par :
+
+\begin{equation}
+    BW_{Carson} = 2(\Delta f + f_x) = 2 f_x (\beta + 1)
+\end{equation}
+
+où :
+\begin{itemize}
+    \item $\Delta f$ : déviation maximale en fréquence
+    \item $f_x$ : fréquence du signal modulant
+    \item $\beta$ : indice de modulation
+\end{itemize}
+
+\subsubsection{Cas particuliers}
+
+\begin{enumerate}
+    \item \textbf{Pour NFM} ($\beta \ll 1$) :
+    \begin{equation}
+        BW_{Carson} \approx 2 f_x
+    \end{equation}
+    La bande passante est principalement déterminée par la fréquence du signal modulant.
+    
+    \item \textbf{Pour WFM} ($\beta \gg 1$) :
+    \begin{equation}
+        BW_{Carson} \approx 2\Delta f
+    \end{equation}
+    La bande passante est principalement déterminée par la déviation en fréquence.
+\end{enumerate}
+
+\subsubsection{Exemple numérique}
+
+Avec les paramètres du TP :
+\begin{itemize}
+    \item $A_x = 1$ V
+    \item $f_x = 10$ Hz
+    \item $f_c = 100 \times f_x = 1000$ Hz
+\end{itemize}
+
+Le tableau suivant présente les résultats pour différentes valeurs de $\Delta f$ :
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+$\Delta f$ (Hz) & $K_f$ (Hz/V) & $\beta$ & $BW_{Carson}$ (Hz) & Type \\
+\hline
+1 & 1.0 & 0.10 & 22 & NFM \\
+10 & 10.0 & 1.00 & 40 & Transition \\
+50 & 50.0 & 5.00 & 120 & WFM \\
+100 & 100.0 & 10.00 & 220 & WFM \\
+\hline
+\end{tabular}
+\caption{Caractéristiques du signal FM pour différentes déviations}
+\end{table}
+
+\textbf{Observations :}
+\begin{itemize}
+    \item Pour $\Delta f = 1$ Hz : $\beta = 0.10 \Rightarrow$ NFM (bande étroite)
+    \item Pour $\Delta f = 10$ Hz : $\beta = 1.00 \Rightarrow$ Zone de transition
+    \item Pour $\Delta f = 50$ Hz : $\beta = 5.00 \Rightarrow$ WFM (large bande)
+    \item Pour $\Delta f = 100$ Hz : $\beta = 10.00 \Rightarrow$ WFM (très large bande)
+\end{itemize}
+
+Plus l'indice de modulation augmente, plus la bande passante nécessaire est importante, mais meilleure est la qualité du signal et sa résistance au bruit.
+
+
+
+\newpage
+\section{Partie I : Analyse théorique du signal modulé FM sous Matlab}
+
+\subsection{Objectif}
+
+Cette partie vise à analyser en profondeur les caractéristiques d'un signal modulé en fréquence (FM) à l'aide de Matlab. Nous allons générer un signal modulant sinusoïdal, le moduler en FM avec différents paramètres, observer l'effet de la variation de la déviation en fréquence sur le signal modulé et son spectre, puis effectuer la démodulation.
+
+\subsection{Paramètres du signal}
+
+Les paramètres utilisés pour cette analyse sont :
+
+\begin{itemize}
+    \item Signal modulant : $x(t) = A_x \cos(2\pi f_x t)$
+    \item Amplitude du signal modulant : $A_x = 1$ V
+    \item Fréquence du signal modulant : $f_x = 10$ Hz
+    \item Fréquence de la porteuse : $f_c = 100 \times f_x = 1000$ Hz
+    \item Fréquence d'échantillonnage : $f_s = 10000$ Hz
+    \item Durée du signal : $T = 1$ s
+\end{itemize}
+
+\subsection{Question 1 : Génération du signal modulant}
+
+Le signal modulant est une sinusoïde pure qui représente l'information à transmettre. Dans un contexte réel, ce signal pourrait être un signal audio, mais ici nous utilisons une sinusoïde pour faciliter l'analyse.
+
+\begin{lstlisting}[caption=Code 1 - Génération du signal modulant]
+% Parametres
+Ax = 1;              % Amplitude (1V)
+fx = 10;             % Frequence (10 Hz)
+fc = 100*fx;         % Frequence porteuse (1000 Hz)
+fs = 10000;          % Frequence d'echantillonnage
+T = 1;               % Duree (1 seconde)
+t = 0:1/fs:T-1/fs;   % Vecteur temps
+
+% Signal modulant
+x = Ax * cos(2*pi*fx*t);
+
+% Affichage
+figure('Name', 'Signal Modulant');
+plot(t, x, 'b', 'LineWidth', 2);
+xlabel('Temps (s)');
+ylabel('Amplitude (V)');
+title('Signal Modulant x(t)');
+grid on;
+xlim([0 0.5]);  % Afficher 5 periodes
+\end{lstlisting}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/image1.png}
+    \caption{Signal modulant sinusoïdal $x(t)$ de fréquence 10 Hz}
+    \label{fig:signal_modulant}
+\end{figure}
+
+\textbf{Analyse :} Le signal modulant est une sinusoïde parfaite de fréquence 10 Hz et d'amplitude 1 V. Ce signal contient l'information que nous souhaitons transmettre via la modulation FM. La période du signal est $T_x = 1/f_x = 0.1$ s.
+
+\subsection{Question 2 : Génération du signal modulé FM avec fmmod}
+
+La fonction \texttt{fmmod} de Matlab permet de générer un signal modulé en FM. Cette fonction implémente l'équation de modulation FM en calculant la phase instantanée à partir de l'intégrale du signal modulant.
+
+\textbf{Syntaxe :}
+\begin{lstlisting}
+s_FM = fmmod(x, fc, fs, delta_f);
+\end{lstlisting}
+
+où :
+\begin{itemize}
+    \item \texttt{x} : signal modulant
+    \item \texttt{fc} : fréquence de la porteuse (Hz)
+    \item \texttt{fs} : fréquence d'échantillonnage (Hz)
+    \item \texttt{delta\_f} : déviation en fréquence $\Delta f$ (Hz)
+\end{itemize}
+
+\begin{lstlisting}[caption=Code 2 - Génération du signal FM]
+% Generation du signal FM avec deviation de 50 Hz
+delta_f = 50;
+s_FM = fmmod(x, fc, fs, delta_f);
+
+% Calcul de l'indice de modulation
+beta = delta_f / fx;
+
+fprintf('Deviation en frequence: %.0f Hz\n', delta_f);
+fprintf('Indice de modulation beta: %.2f\n', beta);
+\end{lstlisting}
+
+\textbf{Principe de fonctionnement :} La fonction \texttt{fmmod} calcule d'abord la phase instantanée $\varphi(t) = 2\pi K_f \int x(\tau) d\tau$, puis génère le signal FM selon $s_{FM}(t) = \cos(2\pi f_c t + \varphi(t))$. La déviation $\Delta f$ est liée à $K_f$ par $\Delta f = K_f \cdot A_x$.
+
+\subsection{Question 3 : Tracé de l'allure du signal modulé}
+
+Pour visualiser l'effet de la modulation FM, nous traçons le signal modulant et le signal modulé FM sur la même fenêtre temporelle.
+
+\begin{lstlisting}[caption=Code 3 - Comparaison signal modulant et signal FM]
+% Signal FM avec deviation de 50 Hz
+delta_f = 50;
+s_FM = fmmod(x, fc, fs, delta_f);
+beta = delta_f / fx;
+
+% Affichage comparatif
+figure('Name', 'Signal Modulant vs Signal FM');
+subplot(2,1,1);
+plot(t(1:1000), x(1:1000), 'b', 'LineWidth', 2);
+xlabel('Temps (s)');
+ylabel('Amplitude (V)');
+title('Signal Modulant x(t)');
+grid on;
+
+subplot(2,1,2);
+plot(t(1:1000), s_FM(1:1000), 'r', 'LineWidth', 1);
+xlabel('Temps (s)');
+ylabel('Amplitude');
+title(sprintf('Signal Module FM - Delta_f = %d Hz, beta = %.2f', ...
+              delta_f, beta));
+grid on;
+\end{lstlisting}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{images/image2.png}
+    \caption{Comparaison entre le signal modulant et le signal modulé FM ($\Delta f = 50$ Hz, $\beta = 5$)}
+    \label{fig:signal_fm}
+\end{figure}
+
+\textbf{Analyse détaillée :}
+
+\begin{enumerate}
+    \item \textbf{Amplitude constante :} Contrairement à la modulation AM, l'amplitude du signal FM reste constante. C'est une caractéristique fondamentale de la FM qui la rend moins sensible aux variations d'amplitude causées par le bruit.
+    
+    \item \textbf{Variation de fréquence :} On observe que la fréquence instantanée du signal FM varie en fonction du signal modulant. Quand $x(t)$ est positif, la fréquence augmente au-dessus de $f_c$. Quand $x(t)$ est négatif, elle diminue en dessous de $f_c$.
+    
+    \item \textbf{Compression et étirement temporel :} Les oscillations du signal FM sont plus rapprochées (haute fréquence) quand le signal modulant est à son maximum, et plus espacées (basse fréquence) quand il est à son minimum.
+    
+    \item \textbf{Indice de modulation $\beta = 5$ :} Avec cette valeur, nous sommes clairement dans le cas WFM (large bande), ce qui explique la variation importante de la fréquence instantanée.
+\end{enumerate}
+
+\subsection{Question 4 : Effet de la variation de la déviation en fréquence}
+
+Cette question est cruciale pour comprendre l'impact de l'indice de modulation sur le signal FM. Nous testons quatre valeurs de déviation : $\Delta f = 1, 10, 50, 100$ Hz.
+
+\begin{lstlisting}[caption=Code 4 - Variation de la deviation en frequence]
+% Test avec differentes valeurs de deviation
+deviations = [1, 10, 50, 100];
+
+figure('Name', 'Effet de la Deviation en Frequence');
+for i = 1:length(deviations)
+    delta_f = deviations(i);
+    s_FM = fmmod(x, fc, fs, delta_f);
+    beta = delta_f / fx;
+    
+    subplot(2, 2, i);
+    plot(t(1:500), s_FM(1:500), 'LineWidth', 1.5);
+    xlabel('Temps (s)');
+    ylabel('Amplitude');
+    title(sprintf('Delta_f = %d Hz, beta = %.2f', delta_f, beta));
+    grid on;
+    
+    % Ajouter le type de modulation
+    if beta < 0.5
+        text(0.02, 0.8, 'NFM', 'FontSize', 12, 'FontWeight', 'bold');
+    else
+        text(0.02, 0.8, 'WFM', 'FontSize', 12, 'FontWeight', 'bold');
+    end
+end
+\end{lstlisting}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.95\textwidth]{images/image3.png}
+    \caption{Effet de la variation de la déviation en fréquence sur le signal FM}
+    \label{fig:variation_deviation}
+\end{figure}
+
+\textbf{Analyse comparative approfondie :}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|c|c|c|l|}
+\hline
+$\Delta f$ (Hz) & $\beta$ & Type & Observations \\
+\hline
+1 & 0.10 & NFM & Oscillations quasi-régulières, variation minimale \\
+10 & 1.00 & Transition & Variation de fréquence visible \\
+50 & 5.00 & WFM & Forte compression/étirement temporel \\
+100 & 10.00 & WFM & Variation maximale, effet très prononcé \\
+\hline
+\end{tabular}
+\caption{Caractéristiques des signaux FM pour différentes déviations}
+\end{table}
+
+\textbf{Raisonnement physique :}
+
+\begin{enumerate}
+    \item \textbf{Cas $\beta = 0.10$ (NFM) :}
+    \begin{itemize}
+        \item La déviation est très faible (1 Hz) par rapport à la fréquence modulante (10 Hz)
+        \item La fréquence instantanée varie entre 999 Hz et 1001 Hz
+        \item Le signal ressemble presque à une porteuse pure
+        \item Occupation spectrale minimale : $BW \approx 22$ Hz
+    \end{itemize}
+    
+    \item \textbf{Cas $\beta = 1.00$ (Transition) :}
+    \begin{itemize}
+        \item Zone de transition entre NFM et WFM
+        \item La déviation (10 Hz) égale la fréquence modulante
+        \item Variation de fréquence clairement visible
+        \item Occupation spectrale : $BW \approx 40$ Hz
+    \end{itemize}
+    
+    \item \textbf{Cas $\beta = 5.00$ (WFM) :}
+    \begin{itemize}
+        \item La déviation (50 Hz) est 5 fois supérieure à la fréquence modulante
+        \item Fréquence instantanée varie entre 950 Hz et 1050 Hz
+        \item Zones de compression et d'étirement très marquées
+        \item Occupation spectrale : $BW \approx 120$ Hz
+    \end{itemize}
+    
+    \item \textbf{Cas $\beta = 10.00$ (WFM) :}
+    \begin{itemize}
+        \item Déviation maximale (100 Hz), 10 fois la fréquence modulante
+        \item Fréquence instantanée varie entre 900 Hz et 1100 Hz
+        \item Effet de modulation extrême
+        \item Occupation spectrale : $BW \approx 220$ Hz
+        \item Meilleure résistance au bruit mais nécessite plus de bande passante
+    \end{itemize}
+\end{enumerate}
+
+\textbf{Conclusion :} L'indice de modulation $\beta$ est le paramètre clé qui détermine les caractéristiques du signal FM. Plus $\beta$ augmente, plus la variation de fréquence est importante, ce qui améliore la résistance au bruit mais nécessite une bande passante plus large. C'est le compromis fondamental de la modulation FM.
+
+
+
+\subsection{Question 5 : Spectre d'amplitude du signal modulé FM}
+
+L'analyse spectrale est essentielle pour comprendre l'occupation en fréquence du signal FM et vérifier la règle de Carson.
+
+\begin{lstlisting}[caption=Code 5 - Analyse spectrale du signal FM]
+% Test avec differentes deviations
+deviations = [1, 10, 50, 100];
+
+figure('Name', 'Spectres d Amplitude des Signaux FM');
+for i = 1:length(deviations)
+    delta_f = deviations(i);
+    s_FM = fmmod(x, fc, fs, delta_f);
+    beta = delta_f / fx;
+    
+    % Calcul de la FFT
+    N = length(s_FM);
+    S_FM_f = fft(s_FM);
+    S_FM_f = fftshift(S_FM_f);
+    f = (-N/2:N/2-1)*(fs/N);
+    
+    % Spectre d'amplitude normalise
+    amplitude_spectrum = abs(S_FM_f)/N;
+    
+    % Calcul de la bande de Carson
+    BW_Carson = 2*(delta_f + fx);
+    
+    subplot(2, 2, i);
+    plot(f, amplitude_spectrum, 'LineWidth', 1);
+    xlabel('Frequence (Hz)');
+    ylabel('Amplitude');
+    title(sprintf('Delta_f=%d Hz, beta=%.2f, BW=%.0f Hz', ...
+                  delta_f, beta, BW_Carson));
+    xlim([fc-150 fc+150]);
+    grid on;
+    
+    % Marquer la bande de Carson
+    hold on;
+    xline(fc-BW_Carson/2, 'r--', 'LineWidth', 1.5);
+    xline(fc+BW_Carson/2, 'r--', 'LineWidth', 1.5);
+    hold off;
+end
+\end{lstlisting}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.95\textwidth]{images/image4.png}
+    \caption{Spectres d'amplitude des signaux FM pour différentes déviations}
+    \label{fig:spectres_fm}
+\end{figure}
+
+\textbf{Analyse spectrale approfondie :}
+
+\begin{enumerate}
+    \item \textbf{Structure du spectre FM :}
+    \begin{itemize}
+        \item Le spectre FM présente une raie centrale à la fréquence porteuse $f_c = 1000$ Hz
+        \item Des raies latérales espacées de $f_x = 10$ Hz de part et d'autre de la porteuse
+        \item Le nombre de raies significatives augmente avec $\beta$
+    \end{itemize}
+    
+    \item \textbf{Cas $\beta = 0.10$ (NFM) :}
+    \begin{itemize}
+        \item Spectre très concentré autour de $f_c$
+        \item Principalement 3 raies : porteuse + 2 raies latérales (comme en AM)
+        \item Occupation spectrale : $\approx 22$ Hz (lignes rouges)
+        \item Ressemble au spectre d'un signal AM
+    \end{itemize}
+    
+    \item \textbf{Cas $\beta = 1.00$ :}
+    \begin{itemize}
+        \item Apparition de plusieurs raies latérales
+        \item Environ 5-7 raies significatives de chaque côté
+        \item Occupation spectrale : $\approx 40$ Hz
+        \item Transition claire entre NFM et WFM
+    \end{itemize}
+    
+    \item \textbf{Cas $\beta = 5.00$ (WFM) :}
+    \begin{itemize}
+        \item Nombreuses raies latérales (environ 10-12 de chaque côté)
+        \item Distribution spectrale étendue
+        \item Occupation spectrale : $\approx 120$ Hz
+        \item La règle de Carson est bien vérifiée
+    \end{itemize}
+    
+    \item \textbf{Cas $\beta = 10.00$ (WFM) :}
+    \begin{itemize}
+        \item Spectre très étalé avec de nombreuses raies
+        \item Plus de 20 raies significatives de chaque côté
+        \item Occupation spectrale : $\approx 220$ Hz
+        \item Nécessite une bande passante importante
+    \end{itemize}
+\end{enumerate}
+
+\textbf{Vérification de la règle de Carson :}
+
+Les lignes rouges en pointillés sur les graphiques délimitent la bande de Carson calculée par $BW = 2(\Delta f + f_x)$. On observe que :
+
+\begin{itemize}
+    \item 98\% de l'énergie du signal est effectivement contenue dans cette bande
+    \item La règle de Carson est une excellente approximation pratique
+    \item Au-delà de cette bande, l'amplitude des raies devient négligeable
+\end{itemize}
+
+\textbf{Commentaire sur l'occupation spectrale :}
+
+Plus la déviation en fréquence augmente, plus le spectre s'élargit. Cela confirme que la modulation FM nécessite une bande passante plus large que la modulation AM ($BW_{AM} = 2f_x = 20$ Hz), mais offre en contrepartie :
+\begin{itemize}
+    \item Une meilleure résistance au bruit
+    \item Un meilleur rapport signal/bruit en sortie
+    \item Une amplitude constante (moins sensible aux non-linéarités)
+\end{itemize}
+
+C'est le compromis fondamental : \textbf{échanger de la bande passante contre de la qualité}.
+
+\subsection{Question 6 : Démodulation avec fmdemod}
+
+La démodulation FM consiste à récupérer le signal modulant original à partir du signal FM. Matlab propose la fonction \texttt{fmdemod} qui effectue cette opération.
+
+\textbf{Principe de la démodulation FM :}
+
+La démodulation FM repose sur le calcul de la dérivée de la phase instantanée. En effet, puisque $f_i(t) = f_c + K_f \cdot x(t)$, on peut retrouver $x(t)$ en calculant :
+$$x(t) = \frac{f_i(t) - f_c}{K_f} = \frac{1}{K_f}\left(\frac{1}{2\pi}\frac{d\varphi}{dt}\right)$$
+
+\begin{lstlisting}[caption=Code 6 - Demodulation FM]
+% Signal FM avec deviation de 50 Hz
+delta_f = 50;
+s_FM = fmmod(x, fc, fs, delta_f);
+
+% Demodulation
+x2 = fmdemod(s_FM, fc, fs, delta_f);
+
+% Affichage
+figure('Name', 'Demodulation FM');
+plot(t, x, 'b', 'LineWidth', 2);
+hold on;
+plot(t, x2, 'r--', 'LineWidth', 1.5);
+hold off;
+xlabel('Temps (s)');
+ylabel('Amplitude (V)');
+title('Comparaison Signal Original vs Signal Demodule');
+legend('Signal original x(t)', 'Signal demodule x2(t)');
+grid on;
+xlim([0 0.5]);
+\end{lstlisting}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/image5.png}
+    \caption{Démodulation FM : comparaison entre signal original et signal démodulé}
+    \label{fig:demodulation}
+\end{figure}
+
+\textbf{Analyse :} Le signal démodulé (en rouge pointillé) se superpose parfaitement au signal original (en bleu). Cela démontre que la démodulation FM fonctionne correctement et permet de récupérer fidèlement le signal d'origine sans distorsion significative.
+
+\subsection{Question 7 : Comparaison signal modulant et signal démodulé}
+
+En traçant sur la même figure le signal modulant $x(t)$ et le signal démodulé $x_2(t)$, on observe :
+
+\begin{itemize}
+    \item Les deux signaux sont quasiment identiques (superposés)
+    \item La démodulation FM permet de récupérer fidèlement le signal modulant
+    \item Il peut y avoir un léger décalage temporel dû au traitement numérique
+    \item L'amplitude est correctement restituée
+\end{itemize}
+
+\textbf{Résultat :} La démodulation FM fonctionne correctement et permet de récupérer le signal d'origine sans distorsion significative.
+
+
+
+\subsection{Question 8 : Démodulation avec erreur de fréquence}
+
+Dans un système réel, l'oscillateur du récepteur peut ne pas être parfaitement synchronisé avec celui de l'émetteur. Nous simulons ce cas en supposant que l'oscillateur de réception délivre une fréquence $f_r = f_c + 1$ Hz au lieu de $f_c$.
+
+\begin{lstlisting}[caption=Code 8 - Demodulation avec erreur de frequence]
+% Signal FM avec fc = 1000 Hz
+delta_f = 50;
+s_FM = fmmod(x, fc, fs, delta_f);
+
+% Demodulation avec erreur de frequence (fr = fc + 1)
+fr = fc + 1;
+x2_error = fmdemod(s_FM, fr, fs, delta_f);
+
+% Demodulation correcte pour comparaison
+x2_correct = fmdemod(s_FM, fc, fs, delta_f);
+
+% Affichage comparatif
+figure('Name', 'Effet de l Erreur de Frequence');
+subplot(3,1,1);
+plot(t, x, 'b', 'LineWidth', 2);
+ylabel('Amplitude (V)');
+title('Signal Original x(t)');
+grid on;
+xlim([0 0.5]);
+
+subplot(3,1,2);
+plot(t, x2_correct, 'g', 'LineWidth', 1.5);
+ylabel('Amplitude (V)');
+title('Demodulation Correcte (fr = fc)');
+grid on;
+xlim([0 0.5]);
+
+subplot(3,1,3);
+plot(t, x2_error, 'r', 'LineWidth', 1.5);
+xlabel('Temps (s)');
+ylabel('Amplitude (V)');
+title('Demodulation avec Erreur (fr = fc + 1 Hz)');
+grid on;
+xlim([0 0.5]);
+
+% Calcul de la composante continue
+DC_offset = mean(x2_error);
+fprintf('Composante continue introduite: %.4f V\n', DC_offset);
+\end{lstlisting}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{images/image7.png}
+    \caption{Effet d'une erreur de fréquence sur la démodulation FM}
+    \label{fig:erreur_frequence}
+\end{figure}
+
+\textbf{Analyse détaillée :}
+
+\begin{enumerate}
+    \item \textbf{Composante continue (DC offset) :}
+    \begin{itemize}
+        \item Le signal démodulé avec erreur présente un décalage vertical
+        \item Ce décalage correspond à l'erreur de fréquence : $DC = \frac{f_r - f_c}{K_f} = \frac{1}{K_f}$
+        \item Avec $K_f = \Delta f / A_x = 50$ Hz/V, on obtient $DC = 0.02$ V
+    \end{itemize}
+    
+    \item \textbf{Forme du signal préservée :}
+    \begin{itemize}
+        \item La forme sinusoïdale est conservée
+        \item La fréquence et l'amplitude de variation sont correctes
+        \item Seul le niveau moyen est affecté
+    \end{itemize}
+    
+    \item \textbf{Impact sur la qualité :}
+    \begin{itemize}
+        \item Pour un signal audio, cela introduit une composante DC inaudible
+        \item Mais peut saturer les étages suivants si l'erreur est importante
+        \item Peut causer des distorsions dans les amplificateurs
+    \end{itemize}
+\end{enumerate}
+
+\textbf{Solutions pratiques :}
+
+\begin{enumerate}
+    \item \textbf{Filtrage passe-haut :}
+    \begin{itemize}
+        \item Élimine la composante continue
+        \item Simple à implémenter
+        \item Mais ne corrige pas l'erreur de synchronisation
+    \end{itemize}
+    
+    \item \textbf{Boucle à verrouillage de phase (PLL) :}
+    \begin{itemize}
+        \item Synchronise automatiquement l'oscillateur local avec la porteuse
+        \item Corrige les dérives de fréquence
+        \item Solution la plus utilisée dans les récepteurs FM modernes
+    \end{itemize}
+    
+    \item \textbf{Contrôle automatique de fréquence (AFC) :}
+    \begin{itemize}
+        \item Ajuste automatiquement la fréquence de l'oscillateur local
+        \item Compense les variations de température et de vieillissement
+        \item Utilisé en complément de la PLL
+    \end{itemize}
+\end{enumerate}
+
+\textbf{Remarque importante :} Cette sensibilité à l'erreur de fréquence montre l'importance d'une synchronisation précise en FM. C'est pourquoi les récepteurs FM professionnels utilisent des oscillateurs à quartz très stables et des circuits de synchronisation sophistiqués (PLL).
+
+\newpage
+\section{Partie II : Démodulation FM en présence de bruit}
+
+\subsection{Objectif}
+
+Cette partie vise à étudier le comportement d'un démodulateur FM en présence d'un signal modulé FM bruité. Nous allons analyser l'effet du bruit gaussien (AWGN) sur la qualité de la démodulation et déterminer le seuil de SNR à partir duquel le signal n'est plus correctement démodulé.
+
+\subsection{Question 1 : Génération du signal modulé FM bruité}
+
+Le signal FM bruité est généré en ajoutant un bruit blanc gaussien (AWGN) au signal modulé FM :
+
+\begin{lstlisting}[caption=Génération du signal FM bruité]
+% Signal FM
+s_FM = fmmod(x, fc, fs, delta_f);
+
+% Ajout de bruit AWGN
+SNR_dB = 20;  % Rapport signal/bruit en dB
+s_FM_noisy = awgn(s_FM, SNR_dB, 'measured');
+\end{lstlisting}
+
+La fonction \texttt{awgn} ajoute un bruit blanc gaussien avec un rapport signal/bruit (SNR) spécifié en dB.
+
+\subsection{Question 2 : Démodulation du signal FM bruité}
+
+Le signal FM bruité est démodulé avec la fonction \texttt{fmdemod} :
+
+\begin{lstlisting}[caption=Démodulation du signal bruité]
+x2_noisy = fmdemod(s_FM_noisy, fc, fs, delta_f);
+\end{lstlisting}
+
+\textbf{Commentaire du résultat :}
+
+\begin{itemize}
+    \item Pour un SNR élevé (> 20 dB) : Le signal démodulé est très proche du signal original, le bruit est faible.
+    
+    \item Pour un SNR moyen (10-20 dB) : Le signal démodulé présente du bruit mais reste exploitable, la forme du signal est reconnaissable.
+    
+    \item Pour un SNR faible (< 10 dB) : Le signal démodulé est fortement bruité, la qualité se dégrade significativement.
+\end{itemize}
+
+\subsection{Question 3 : Seuil de démodulation correcte}
+
+Pour déterminer à partir de quelle valeur du SNR le signal n'est plus correctement démodulé, nous testons différentes valeurs de SNR et calculons l'erreur quadratique moyenne (MSE) entre le signal original et le signal démodulé.
+
+\begin{lstlisting}[caption=Analyse du seuil de SNR]
+SNR_values = 0:2:30;  % SNR de 0 a 30 dB
+MSE_values = zeros(size(SNR_values));
+
+for i = 1:length(SNR_values)
+    SNR_dB = SNR_values(i);
+    s_FM_noisy = awgn(s_FM, SNR_dB, 'measured');
+    x2_noisy = fmdemod(s_FM_noisy, fc, fs, delta_f);
+    
+    % Calcul de l'erreur quadratique moyenne
+    MSE_values(i) = mean((x - x2_noisy).^2);
+end
+\end{lstlisting}
+
+\textbf{Résultats attendus :}
+
+\begin{itemize}
+    \item \textbf{Seuil de démodulation :} Le signal FM peut être correctement démodulé pour un SNR supérieur à environ 10-12 dB.
+    
+    \item \textbf{Effet de seuil :} En dessous de ce seuil, la qualité de démodulation se dégrade rapidement (effet de seuil FM).
+    
+    \item \textbf{Avantage de la FM :} Pour un SNR suffisant, la modulation FM offre une meilleure résistance au bruit que la modulation AM, grâce à l'effet de capture et à la possibilité d'utiliser des indices de modulation élevés.
+\end{itemize}
+
+
+
+\subsection{Question 5 : Cohérence avec l'espacement de sous-porteuses}
+
+Pour un signal stéréo, on se retrouve avec un signal multiplex occupant en bande de base une largeur $W = 53$ kHz. La question est de savoir si cela est cohérent avec un espacement de sous-porteuses de 200 kHz.
+
+\textbf{Analyse :}
+
+\begin{itemize}
+    \item Signal multiplex stéréo FM : $W = 53$ kHz
+    \item Espacement entre sous-porteuses : $\Delta f_{spacing} = 200$ kHz
+    \item Déviation maximale en FM stéréo : $\Delta f = 75$ kHz (norme FM)
+\end{itemize}
+
+Selon la règle de Carson, la bande passante nécessaire pour transmettre le signal FM stéréo est :
+
+\begin{equation}
+    BW_{Carson} = 2(\Delta f + W) = 2(75 + 53) = 256 \text{ kHz}
+\end{equation}
+
+\textbf{Conclusion :}
+
+Avec un espacement de 200 kHz entre les sous-porteuses, il y aurait un chevauchement spectral entre les canaux adjacents, car la bande passante nécessaire (256 kHz) est supérieure à l'espacement (200 kHz).
+
+\textbf{Réponse :} Non, ce n'est \textbf{pas cohérent}. Pour éviter les interférences entre canaux adjacents, l'espacement devrait être au minimum égal à la bande de Carson, soit environ 260 kHz. En pratique, la norme FM utilise un espacement de 200 kHz, mais avec des techniques de filtrage et de limitation de bande pour réduire les interférences.
+
+\newpage
+\section{Conclusion}
+
+Ce TP nous a permis d'étudier en détail la modulation et la démodulation FM, tant sur le plan théorique que pratique avec Matlab.
+
+\subsection{Points clés}
+
+\begin{enumerate}
+    \item \textbf{Modulation FM :} La fréquence instantanée varie proportionnellement au signal modulant, tandis que l'amplitude reste constante.
+    
+    \item \textbf{Indice de modulation :} Le paramètre $\beta = \Delta f / f_x$ détermine le type de modulation (NFM ou WFM) et l'occupation spectrale.
+    
+    \item \textbf{Règle de Carson :} La bande passante nécessaire est $BW = 2(\Delta f + f_x)$, ce qui montre que la FM nécessite plus de bande passante que l'AM.
+    
+    \item \textbf{Démodulation :} La fonction \texttt{fmdemod} permet de récupérer fidèlement le signal modulant à partir du signal FM.
+    
+    \item \textbf{Sensibilité au bruit :} La FM présente un effet de seuil : au-dessus d'un certain SNR (environ 10-12 dB), la qualité est excellente ; en dessous, elle se dégrade rapidement.
+    
+    \item \textbf{Erreur de fréquence :} Une erreur de synchronisation entre émetteur et récepteur introduit une composante continue dans le signal démodulé.
+\end{enumerate}
+
+\subsection{Avantages de la modulation FM}
+
+\begin{itemize}
+    \item Meilleure résistance au bruit que l'AM (pour SNR suffisant)
+    \item Amplitude constante (moins sensible aux non-linéarités)
+    \item Possibilité d'améliorer le SNR en augmentant $\beta$ (au prix d'une bande passante plus large)
+    \item Effet de capture : le signal le plus fort domine
+\end{itemize}
+
+\subsection{Inconvénients de la modulation FM}
+
+\begin{itemize}
+    \item Occupation spectrale importante (surtout en WFM)
+    \item Complexité accrue des circuits de modulation/démodulation
+    \item Effet de seuil : performances médiocres pour SNR faible
+    \item Nécessité d'une synchronisation précise en fréquence
+\end{itemize}
+
+\end{document}
