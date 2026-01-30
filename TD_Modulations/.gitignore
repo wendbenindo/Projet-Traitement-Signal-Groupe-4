@@ -1,0 +1,15 @@
+# Fichiers LaTeX temporaires
+*.aux
+*.log
+*.out
+*.toc
+*.synctex.gz
+*.fdb_latexmk
+*.fls
+
+# Fichiers MATLAB temporaires
+*.asv
+*.m~
+
+# PDF anciens
+*_old.pdf
