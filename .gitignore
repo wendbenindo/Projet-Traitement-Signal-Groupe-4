@@ -1,0 +1,64 @@
+# Fichiers LaTeX temporaires
+*.aux
+*.log
+*.out
+*.toc
+*.synctex.gz
+*.fdb_latexmk
+*.fls
+*.bbl
+*.blg
+*.bcf
+*.run.xml
+*.nav
+*.snm
+*.vrb
+
+# Fichiers MATLAB temporaires
+*.asv
+*.m~
+
+# Fichiers système Windows
+Thumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Fichiers système macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Fichiers système Linux
+*~
+.directory
+
+# Dossiers IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Fichiers de sauvegarde
+*_old.*
+*.bak
+*.backup
+
+# Archives
+*.zip
+*.rar
+*.7z
+*.tar
+*.gz
+
+# PDF anciens (garder seulement le dernier)
+*_old.pdf
+*_backup.pdf
+
+# Fichiers temporaires générés
+temp/
+tmp/
+CHANGELOG.md
+FORMULES.md
+GUIDE_RAPIDE.md
+SOUMISSION.md
+TROUBLESHOOTING.md

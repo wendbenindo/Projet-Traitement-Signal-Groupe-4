@@ -1,19 +1,25 @@
 @echo off
-echo Compilation du rapport LaTeX...
+echo ========================================
+echo   COMPILATION DU RAPPORT LATEX
+echo ========================================
 echo.
-
-REM Rafraichir le PATH
-set PATH=%PATH%;C:\Users\chris\AppData\Local\Programs\MiKTeX\miktex\bin\x64
 
 REM Compiler 2 fois pour la table des matieres
-pdflatex -interaction=nonstopmode Rapport_TP2_FM.tex
-pdflatex -interaction=nonstopmode Rapport_TP2_FM.tex
+echo [1/2] Premiere compilation...
+pdflatex -interaction=nonstopmode Rapport_TP2_FM.tex > nul 2>&1
+
+echo [2/2] Deuxieme compilation...
+pdflatex -interaction=nonstopmode Rapport_TP2_FM.tex > nul 2>&1
 
 REM Nettoyer les fichiers temporaires
-del *.aux *.log *.out *.toc 2>nul
+echo.
+echo Nettoyage des fichiers temporaires...
+del *.aux *.log *.out *.toc *.synctex.gz 2>nul
 
 echo.
-echo Compilation terminee !
+echo ========================================
+echo   COMPILATION TERMINEE !
+echo ========================================
 echo Le fichier Rapport_TP2_FM.pdf a ete genere.
 echo.
 

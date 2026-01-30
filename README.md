@@ -15,7 +15,8 @@ Projet Traitement Signal Groupe 4/
 │   ├── code5.m                     # Démodulation FM → image5.png
 │   ├── code6.m                     # Qualité démodulation → image6.png
 │   ├── code7.m                     # Erreur de fréquence → image7.png
-│   ├── code8.m                     # Signaux bruités → image8.png
+│   ├── code8.m                     # Démodulation signaux bruités → image8.png
+│   ├── code9.m                     # Analyse seuil SNR → image9.png
 │   └── generer_toutes_images.m     # Script principal
 │
 ├── images/                         # Images générées par les codes
@@ -77,17 +78,19 @@ Le fichier `Rapport_TP2_FM.pdf` sera généré automatiquement.
 | code5.m | Démodulation FM | image5.png |
 | code6.m | Analyse qualité démodulation | image6.png |
 | code7.m | Erreur de fréquence | image7.png |
-| code8.m | Signaux FM bruités | image8.png |
+| code8.m | Démodulation signaux bruités | image8.png |
+| code9.m | Analyse seuil SNR | image9.png |
 
 ## 📝 Contenu du rapport
 
-### Préparation (Questions théoriques)
+### Préparation (Questions théoriques) ✅
 1. Expression signal FM et fréquence instantanée
 2. Cas sinusoïdal : fi, β, relation Kf et Δf
 3. Différence NFM vs WFM
 4. Bande de Carson
+5. Question stéréo (cohérence espacement)
 
-### Partie I : Analyse théorique
+### Partie I : Analyse théorique ✅
 1. Génération signal modulant
 2. Génération signal FM avec fmmod
 3. Tracé signal modulé
@@ -97,17 +100,44 @@ Le fichier `Rapport_TP2_FM.pdf` sera généré automatiquement.
 7. Comparaison signaux
 8. Démodulation avec erreur de fréquence
 
-### Partie II : Démodulation avec bruit
+### Partie II : Démodulation avec bruit ✅
 1. Génération signal FM bruité
 2. Démodulation signal bruité
-3. Seuil de démodulation
+3. Analyse du seuil de démodulation
 4. Question stéréo
+
+## 🎯 Résultats clés
+
+- **Seuil de démodulation** : SNR ≥ 10-12 dB
+- **Gain FM** : ≈ 18 dB pour β = 5
+- **Bande de Carson** : BW = 2(Δf + fx)
+- **Signal stéréo** : Espacement 200 kHz non cohérent avec BW = 256 kHz
 
 ## 🛠️ Prérequis
 
 - **MATLAB** (avec Signal Processing Toolbox)
 - **MiKTeX** ou autre distribution LaTeX
 - **Windows** (scripts .bat fournis)
+
+## 📊 Améliorations apportées
+
+### Nouveaux codes
+- **code8.m amélioré** : Démodulation des signaux bruités avec analyse MSE/SNR
+- **code9.m nouveau** : Analyse complète du seuil de démodulation (0-30 dB)
+
+### Rapport LaTeX complété
+- Partie II entièrement rédigée avec analyses détaillées
+- Graphiques et explications pour tous les résultats
+- Question stéréo répondue avec calculs
+
+### Fichiers de configuration
+- **.gitignore** : Ignore fichiers temporaires LaTeX, MATLAB, système
+- **CHANGELOG.md** : Documentation des améliorations
+- **compiler.bat** : Script de compilation amélioré
+
+## ✅ Statut du projet
+
+**Projet 100% complet !** Toutes les questions théoriques et pratiques sont traitées.
 
 ## 👥 Groupe 4
 

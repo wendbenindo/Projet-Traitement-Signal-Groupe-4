@@ -14,36 +14,40 @@ if ~exist('../images', 'dir')
 end
 
 % Exécuter chaque code individuellement
-fprintf('[1/8] Exécution de code1.m...\n');
+fprintf('[1/9] Exécution de code1.m...\n');
 run('code1');
 close all;
 
-fprintf('[2/8] Exécution de code2.m...\n');
+fprintf('[2/9] Exécution de code2.m...\n');
 run('code2');
 close all;
 
-fprintf('[3/8] Exécution de code3.m...\n');
+fprintf('[3/9] Exécution de code3.m...\n');
 run('code3');
 close all;
 
-fprintf('[4/8] Exécution de code4.m...\n');
+fprintf('[4/9] Exécution de code4.m...\n');
 run('code4');
 close all;
 
-fprintf('[5/8] Exécution de code5.m...\n');
+fprintf('[5/9] Exécution de code5.m...\n');
 run('code5');
 close all;
 
-fprintf('[6/8] Exécution de code6.m...\n');
+fprintf('[6/9] Exécution de code6.m...\n');
 run('code6');
 close all;
 
-fprintf('[7/8] Exécution de code7.m...\n');
+fprintf('[7/9] Exécution de code7.m...\n');
 run('code7');
 close all;
 
-fprintf('[8/8] Exécution de code8.m...\n');
+fprintf('[8/9] Exécution de code8.m...\n');
 run('code8');
+close all;
+
+fprintf('[9/9] Exécution de code9.m...\n');
+run('code9');
 close all;
 
 fprintf('\n========================================\n');
