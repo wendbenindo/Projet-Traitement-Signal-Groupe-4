@@ -136,7 +136,8 @@ En identifiant les termes du signal donné :
 
 \begin{center}
 \fbox{\parbox{0.8\textwidth}{
-\textbf{Résultat :} La fréquence latérale supérieure est $\boxed{f_{sup} \approx 605{,}1 \text{ kHz}}$
+\centering
+\textbf{Résultat :} La fréquence latérale supérieure est $f_{sup} \approx 605{,}1$ kHz
 }}
 \end{center}
 
@@ -154,7 +155,8 @@ On peut vérifier : $f_{sup} - f_c = 605{,}1 - 600{,}3 = 4{,}8$ kHz (légère di
 
 \begin{center}
 \fbox{\parbox{0.8\textwidth}{
-\textbf{Résultat :} La fréquence modulante est $\boxed{f_m \approx 5{,}1 \text{ kHz}}$
+\centering
+\textbf{Résultat :} La fréquence modulante est $f_m \approx 5{,}1$ kHz
 }}
 \end{center}
 
@@ -177,7 +179,8 @@ Avec $A_c = 100$ V et $A_{bl} = 43{,}5$ V :
 
 \begin{center}
 \fbox{\parbox{0.8\textwidth}{
-\textbf{Résultat :} Le taux de modulation est $\boxed{m = 87\%}$
+\centering
+\textbf{Résultat :} Le taux de modulation est $m = 87\%$
 }}
 \end{center}
 
@@ -195,7 +198,8 @@ Cette bande contient la porteuse et les deux bandes latérales.
 
 \begin{center}
 \fbox{\parbox{0.8\textwidth}{
-\textbf{Résultat :} La bande de fréquences de l'émission est $\boxed{BW \approx 10{,}2 \text{ kHz}}$
+\centering
+\textbf{Résultat :} La bande de fréquences de l'émission est $BW \approx 10{,}2$ kHz
 }}
 \end{center}
 
@@ -229,9 +233,9 @@ Puissance par bande latérale :
 \fbox{\parbox{0.9\textwidth}{
 \textbf{Résultats :}
 \begin{itemize}
-    \item Puissance porteuse : $\boxed{P_c \approx 27{,}6 \text{ kW}}$
-    \item Puissance par bande latérale : $\boxed{P_{bl} \approx 5{,}2 \text{ kW}}$
-    \item Puissance totale bandes latérales : $\boxed{2 \times 5{,}2 = 10{,}4 \text{ kW}}$
+    \item Puissance porteuse : $P_c \approx 27{,}6$ kW
+    \item Puissance par bande latérale : $P_{bl} \approx 5{,}2$ kW
+    \item Puissance totale bandes latérales : $2 \times 5{,}2 = 10{,}4$ kW
 \end{itemize}
 Vérification : $P_c + P_{bl,total} = 27{,}6 + 10{,}4 = 38$ kW ✓
 }}
@@ -261,7 +265,8 @@ Si la puissance totale est réduite à 32 kW en changeant le signal modulant, la
 
 \begin{center}
 \fbox{\parbox{0.8\textwidth}{
-\textbf{Résultat :} Le nouveau taux de modulation est $\boxed{m \approx 56{,}5\%}$
+\centering
+\textbf{Résultat :} Le nouveau taux de modulation est $m \approx 56{,}5\%$
 }}
 \end{center}
 
@@ -529,6 +534,177 @@ La figure \ref{fig:ex3_comp} compare les paramètres du signal original et du no
     \item La bande occupée diminue également
     \item Le nouveau signal est clairement en mode NFM ($\beta < 0{,}5$)
 \end{itemize}
+
+\newpage
+
+\section{Problème 1 : Modulation AM et FM}
+
+\subsection{Énoncé}
+
+Les bandes de fréquences allouées à la radiodiffusion sont repérées par :
+\begin{itemize}
+    \item GO : 1052 m à 2000 m
+    \item FM : de 87,5 MHz à 108 MHz
+\end{itemize}
+
+\subsection{Question 1 : Tableau fréquences et longueurs d'onde}
+
+\textbf{Raisonnement :}
+
+La relation entre fréquence et longueur d'onde est : $f = \frac{c}{\lambda}$ où $c = 3 \times 10^8$ m/s.
+
+Pour GO : $f_{min} = \frac{3 \times 10^8}{2000} = 150$ kHz, $f_{max} = \frac{3 \times 10^8}{1052} \approx 285$ kHz
+
+Pour FM : $\lambda_{max} = \frac{3 \times 10^8}{87{,}5 \times 10^6} \approx 3{,}43$ m, $\lambda_{min} = \frac{3 \times 10^8}{108 \times 10^6} \approx 2{,}78$ m
+
+\begin{center}
+\fbox{\parbox{0.95\textwidth}{
+\textbf{Résultat :}
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|c|c|}
+\hline
+\textbf{Bande} & \textbf{Fréquence} & \textbf{Longueur d'onde} \\
+\hline
+GO & De 150 kHz à 285 kHz & De 1052 m à 2000 m \\
+FM & De 87,5 MHz à 108 MHz & De 2,78 m à 3,43 m \\
+\hline
+\end{tabular}
+\end{table}
+}}
+\end{center}
+
+\subsection{Question 2 : Nombre d'émetteurs en GO}
+
+\textbf{Raisonnement :}
+
+Bande totale GO : $285 - 150 = 135$ kHz. Largeur par canal : 9 kHz.
+
+Nombre d'émetteurs : $N = \left\lfloor \frac{135}{9} \right\rfloor = 15$
+
+\begin{center}
+\fbox{\parbox{0.7\textwidth}{
+\centering
+\textbf{Résultat :} $N = 15$ émetteurs
+}}
+\end{center}
+
+\subsection{Question 3 : Fonctions contenant le signal modulant}
+
+\textbf{a) En modulation AM :}
+
+Signal : $s(t) = A_c[1 + m \cdot x(t)] \cos(2\pi f_c t)$
+
+\begin{center}
+\fbox{\parbox{0.8\textwidth}{
+\centering
+\textbf{Résultat :} $X(t) = A_c[1 + m \cdot x(t)]$ (amplitude)
+}}
+\end{center}
+
+\textbf{b) En modulation FM :}
+
+Signal : $s(t) = A_c \cos(2\pi f_c t + 2\pi k_f \int x(\tau) d\tau)$
+
+\begin{center}
+\fbox{\parbox{0.8\textwidth}{
+\centering
+\textbf{Résultat :} $\theta(t) = 2\pi f_c t + 2\pi k_f \int x(\tau) d\tau$ (phase)
+}}
+\end{center}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{images_td/td_prob1_bandes.png}
+    \caption{Bandes de fréquences GO et FM}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{images_td/td_prob1_comparaison.png}
+    \caption{Comparaison GO vs FM}
+\end{figure}
+
+\newpage
+
+\section{Problème 2 : Étude du modulateur FM}
+
+\subsection{Partie 1 : NFM ($\beta = 0{,}1$)}
+
+Paramètres : $f_p = 100$ MHz, $f_m = 10$ kHz, $A_m = 1$ V, $R = 50$ $\Omega$
+
+\subsubsection{Question 1 : Expression de $\theta(t)$}
+
+\textbf{Raisonnement :}
+
+$\theta(t) = 2\pi f_p t + \varphi(t)$ où $\varphi(t) = \beta \sin(2\pi f_m t)$
+
+Avec $\beta = \frac{k A_m}{f_m}$, on obtient $k = \frac{\beta f_m}{A_m} = 1000$ Hz/V
+
+\begin{center}
+\fbox{\parbox{0.8\textwidth}{
+\centering
+\textbf{Résultat :} $\theta(t) = 2\pi f_p t + 0{,}1 \sin(2\pi f_m t)$
+}}
+\end{center}
+
+\subsubsection{Question 3 : Puissance}
+
+$P = \frac{A_p^2}{2R} = \frac{1}{100} = 10$ mW
+
+\begin{center}
+\fbox{\parbox{0.7\textwidth}{
+\centering
+\textbf{Résultats :} $P = 10$ mW $= 10$ dBm
+}}
+\end{center}
+
+\subsubsection{Question 4 : Largeur canal}
+
+$BW \approx 2 f_m = 20$ kHz
+
+\begin{center}
+\fbox{\parbox{0.6\textwidth}{
+\centering
+\textbf{Résultat :} $BW = 20$ kHz
+}}
+\end{center}
+
+\subsection{Partie 2 : WFM ($\beta = 6$)}
+
+\subsubsection{Question 1 : Coefficients de Bessel}
+
+Pour $\beta = 6$, on garde $|J_n| > 0{,}1$ : 5 termes (n = 0 à 4)
+
+\begin{center}
+\fbox{\parbox{0.7\textwidth}{
+\centering
+\textbf{Résultat :} 9 raies significatives
+}}
+\end{center}
+
+\subsubsection{Question 3 : Largeur canal}
+
+$BW = 2(\beta f_m + f_m) = 2 \times 10 \times 7 = 140$ kHz
+
+\begin{center}
+\fbox{\parbox{0.6\textwidth}{
+\centering
+\textbf{Résultat :} $BW = 140$ kHz
+}}
+\end{center}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{images_td/td_prob2_comparaison.png}
+    \caption{Comparaison NFM vs WFM}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{images_td/td_prob2_spectre_wfm.png}
+    \caption{Spectre WFM avec coefficients de Bessel}
+\end{figure}
 
 \newpage
 
