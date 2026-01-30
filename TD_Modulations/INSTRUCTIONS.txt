@@ -1,0 +1,113 @@
+╔══════════════════════════════════════════════════════════════════════════════╗
+║                    INSTRUCTIONS - TD MODULATIONS                             ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+
+🚀 DÉMARRAGE RAPIDE
+═══════════════════
+
+ÉTAPE 1 : Générer les images
+─────────────────────────────
+Double-cliquer sur : generer_images_td.bat
+
+Cela va :
+✓ Lancer MATLAB automatiquement
+✓ Exécuter les 3 codes (td_ex1, td_ex2, td_ex3)
+✓ Générer 10 images dans images_td/
+✓ Durée : environ 20-30 secondes
+
+ÉTAPE 2 : Compiler le rapport
+──────────────────────────────
+Double-cliquer sur : compiler_td.bat
+
+Cela va :
+✓ Compiler le rapport LaTeX (2 passes)
+✓ Intégrer automatiquement les images
+✓ Générer Rapport_TD_Modulations.pdf
+✓ Ouvrir le PDF automatiquement
+✓ Nettoyer les fichiers temporaires
+
+═══════════════════════════════════════════════════════════════════════════════
+
+📊 CONTENU DU RAPPORT
+═════════════════════
+
+✓ Page de garde avec logos (université + UFR/SEA)
+✓ Noms du groupe + professeur
+✓ Table des matières
+✓ Introduction
+✓ Exercice 1 : Modulation AM (6 questions + 2 images)
+✓ Exercice 2 : Signal multi-fréquences (8 questions + 4 images)
+✓ Exercice 3 : Modulation FM (6 questions + 4 images)
+✓ Conclusion avec comparaison AM/FM
+
+Total : ~20 pages, 10 images
+
+═══════════════════════════════════════════════════════════════════════════════
+
+🎯 RÉSULTATS CLÉS
+═════════════════
+
+EXERCICE 1 (Modulation AM) :
+• Fréquence porteuse : ~600 kHz
+• Taux de modulation : 87%
+• Bande passante : ~10 kHz
+• Puissance porteuse : 27.6 kW
+
+EXERCICE 2 (Multi-fréquences) :
+• Fréquences : 440, 560, 680 Hz
+• Porteuse : 250 MHz
+• Démodulation synchrone cohérente
+
+EXERCICE 3 (Modulation FM) :
+• Excursion : 2000 Hz
+• Indice β : 1.0
+• Bande Carson : 8 kHz
+• Type : Transition NFM/WFM
+
+═══════════════════════════════════════════════════════════════════════════════
+
+⚠️ EN CAS DE PROBLÈME
+═════════════════════
+
+Problème : MATLAB ne se lance pas
+Solution : Ouvrir MATLAB manuellement, puis :
+          cd TD_Modulations/codes_td
+          generer_toutes_images_td
+
+Problème : LaTeX ne compile pas
+Solution : Vérifier que MiKTeX est installé
+          Ou compiler manuellement :
+          pdflatex Rapport_TD_Modulations.tex (2 fois)
+
+Problème : Images manquantes dans le PDF
+Solution : 1. Vérifier que images_td/ contient 10 images
+          2. Recompiler le rapport
+
+═══════════════════════════════════════════════════════════════════════════════
+
+📁 FICHIERS IMPORTANTS
+══════════════════════
+
+generer_images_td.bat       → Génère toutes les images
+compiler_td.bat             → Compile le rapport
+Rapport_TD_Modulations.tex  → Source LaTeX
+Rapport_TD_Modulations.pdf  → Rapport final
+README_TD.md                → Documentation complète
+RESUME_TD.txt               → Résumé visuel
+
+═══════════════════════════════════════════════════════════════════════════════
+
+✅ CHECKLIST
+════════════
+
+[ ] Générer les images (generer_images_td.bat)
+[ ] Vérifier que 10 images sont dans images_td/
+[ ] Compiler le rapport (compiler_td.bat)
+[ ] Ouvrir et vérifier le PDF
+[ ] Vérifier que toutes les images apparaissent
+[ ] Relire le rapport
+[ ] Prêt pour soumission !
+
+═══════════════════════════════════════════════════════════════════════════════
+
+Bon travail ! 🎓

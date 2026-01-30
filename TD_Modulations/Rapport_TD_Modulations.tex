@@ -1,0 +1,614 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[french]{babel}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{geometry}
+\usepackage{fancyhdr}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{float}
+\usepackage{array}
+\usepackage{multirow}
+
+\geometry{left=2.5cm, right=2.5cm, top=2.5cm, bottom=2.5cm}
+
+% Configuration pour le code MATLAB
+\lstset{
+    language=Matlab,
+    basicstyle=\ttfamily\small,
+    keywordstyle=\color{blue},
+    commentstyle=\color{green!60!black},
+    stringstyle=\color{red},
+    numbers=left,
+    numberstyle=\tiny\color{gray},
+    frame=single,
+    breaklines=true,
+    captionpos=b
+}
+
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\includegraphics[height=1cm]{../ressources/ufrsea.png}}
+\rhead{TD : Modulations}
+\rfoot{Page \thepage}
+
+\begin{document}
+
+\begin{titlepage}
+    \centering
+    
+    % Logo de l'université en haut
+    \includegraphics[width=0.3\textwidth]{../ressources/universite.png}\\[1cm]
+    
+    {\Large \textbf{UNIVERSITÉ DE OUAGADOUGOU}}\\[0.3cm]
+    {\large UFR/SEA}\\
+    {\large Unité de Formation et de Recherche en Sciences Exactes et Appliquées}\\[2cm]
+    
+    % Titre du TD
+    {\Huge \textbf{TD}}\\[0.5cm]
+    {\LARGE \textbf{Modulations AM et FM}}\\[1cm]
+    
+    {\Large Traitement du Signal}\\[3cm]
+    
+    % Informations du groupe
+    \begin{flushleft}
+    \large
+    \textbf{Encadré par :}\\
+    DR KOURAOGO\\[1cm]
+    
+    \textbf{Réalisé par :}\\
+    \textbf{Groupe 4}\\[0.3cm]
+    1. KABORE W.B François\\
+    2. SISSAO\\
+    3. Élise\\
+    \end{flushleft}
+    
+    \vfill
+    
+    % Date en bas
+    {\large Année académique 2025-2026}\\[0.5cm]
+    {\large \today}
+    
+\end{titlepage}
+
+\tableofcontents
+\newpage
+
+\section*{Introduction}
+\addcontentsline{toc}{section}{Introduction}
+
+Les modulations d'amplitude (AM) et de fréquence (FM) sont des techniques fondamentales en télécommunications permettant de transporter une information sur une onde porteuse haute fréquence. Ces techniques sont omniprésentes dans notre quotidien : radio AM/FM, télévision, communications mobiles, etc.
+
+\subsection*{Objectifs des TD}
+
+Ces travaux dirigés visent à approfondir la compréhension théorique et pratique des modulations AM et FM à travers :
+
+\begin{itemize}
+    \item L'analyse mathématique des signaux modulés
+    \item Le calcul des paramètres caractéristiques (taux de modulation, indice, bande passante)
+    \item L'étude des spectres fréquentiels
+    \item La compréhension des processus de démodulation
+    \item L'application à des cas concrets (radio, télévision, stéréophonie)
+\end{itemize}
+
+\subsection*{Méthodologie}
+
+Pour chaque exercice, nous procéderons selon la démarche suivante :
+\begin{enumerate}
+    \item Analyse théorique du problème
+    \item Calculs mathématiques détaillés
+    \item Simulations sous Matlab
+    \item Visualisation et interprétation des résultats
+\end{enumerate}
+
+Les simulations Matlab permettent de valider les calculs théoriques et de visualiser les phénomènes étudiés dans les domaines temporel et fréquentiel.
+
+\newpage
+
+\section{Exercice 1 : Modulation AM}
+
+\subsection{Énoncé}
+
+Un émetteur AM doit transmettre le signal suivant :
+
+\begin{equation}
+    s(t) = 100\cos(3{,}77 \times 10^6 t) + 43{,}5\cos(3{,}738 \times 10^6 t) + 43{,}5\cos(3{,}802 \times 10^6 t)
+\end{equation}
+
+\subsection{Question a) : Fréquence latérale supérieure}
+
+\textbf{Raisonnement :}
+
+Le signal AM s'écrit sous la forme générale :
+\begin{equation}
+    s(t) = A_c\cos(2\pi f_c t) + \frac{mA_c}{2}\cos(2\pi(f_c - f_m)t) + \frac{mA_c}{2}\cos(2\pi(f_c + f_m)t)
+\end{equation}
+
+En identifiant les termes du signal donné :
+\begin{itemize}
+    \item Porteuse : $2\pi f_c = 3{,}77 \times 10^6$ rad/s $\Rightarrow f_c = \frac{3{,}77 \times 10^6}{2\pi} \approx 600{,}3$ kHz
+    \item Bande latérale inférieure : $f_{inf} = \frac{3{,}738 \times 10^6}{2\pi} \approx 595{,}2$ kHz
+    \item Bande latérale supérieure : $f_{sup} = \frac{3{,}802 \times 10^6}{2\pi} \approx 605{,}1$ kHz
+\end{itemize}
+
+\begin{center}
+\fbox{\parbox{0.8\textwidth}{
+\textbf{Résultat :} La fréquence latérale supérieure est $\boxed{f_{sup} \approx 605{,}1 \text{ kHz}}$
+}}
+\end{center}
+
+\subsection{Question b) : Fréquence modulante}
+
+\textbf{Raisonnement :}
+
+La fréquence modulante est la différence entre la porteuse et une bande latérale :
+
+\begin{equation}
+    f_m = f_c - f_{inf} = 600{,}3 - 595{,}2 = 5{,}1 \text{ kHz}
+\end{equation}
+
+On peut vérifier : $f_{sup} - f_c = 605{,}1 - 600{,}3 = 4{,}8$ kHz (légère différence due aux arrondis).
+
+\begin{center}
+\fbox{\parbox{0.8\textwidth}{
+\textbf{Résultat :} La fréquence modulante est $\boxed{f_m \approx 5{,}1 \text{ kHz}}$
+}}
+\end{center}
+
+\subsection{Question c) : Taux de modulation}
+
+\textbf{Raisonnement :}
+
+En modulation AM, les amplitudes des bandes latérales sont données par :
+\begin{equation}
+    A_{bl} = \frac{m \cdot A_c}{2}
+\end{equation}
+
+où $m$ est le taux de modulation et $A_c$ l'amplitude de la porteuse.
+
+Avec $A_c = 100$ V et $A_{bl} = 43{,}5$ V :
+
+\begin{equation}
+    43{,}5 = \frac{m \times 100}{2} \Rightarrow m = \frac{2 \times 43{,}5}{100} = 0{,}87 = 87\%
+\end{equation}
+
+\begin{center}
+\fbox{\parbox{0.8\textwidth}{
+\textbf{Résultat :} Le taux de modulation est $\boxed{m = 87\%}$
+}}
+\end{center}
+
+\subsection{Question d) : Bande de fréquences}
+
+\textbf{Raisonnement :}
+
+La bande de fréquences d'un signal AM est donnée par la règle de Carson pour l'AM :
+
+\begin{equation}
+    BW = 2 \times f_m = 2 \times 5{,}1 = 10{,}2 \text{ kHz}
+\end{equation}
+
+Cette bande contient la porteuse et les deux bandes latérales.
+
+\begin{center}
+\fbox{\parbox{0.8\textwidth}{
+\textbf{Résultat :} La bande de fréquences de l'émission est $\boxed{BW \approx 10{,}2 \text{ kHz}}$
+}}
+\end{center}
+
+\subsection{Question e) : Répartition des puissances}
+
+\textbf{Raisonnement :}
+
+La puissance totale d'un signal AM est :
+
+\begin{equation}
+    P_t = P_c + P_{bl} = \frac{A_c^2}{2R} + 2 \times \frac{A_{bl}^2}{2R} = \frac{A_c^2 + 2A_{bl}^2}{2R}
+\end{equation}
+
+Avec $P_t = 38$ kW, on peut calculer $R$ :
+
+\begin{equation}
+    R = \frac{A_c^2 + 2A_{bl}^2}{2P_t} = \frac{100^2 + 2 \times 43{,}5^2}{2 \times 38000} = \frac{13784{,}5}{76000} \approx 0{,}181 \, \Omega
+\end{equation}
+
+Puissance de la porteuse :
+\begin{equation}
+    P_c = \frac{A_c^2}{2R} = \frac{100^2}{2 \times 0{,}181} \approx 27{,}6 \text{ kW}
+\end{equation}
+
+Puissance par bande latérale :
+\begin{equation}
+    P_{bl} = \frac{A_{bl}^2}{2R} = \frac{43{,}5^2}{2 \times 0{,}181} \approx 5{,}2 \text{ kW}
+\end{equation}
+
+\begin{center}
+\fbox{\parbox{0.9\textwidth}{
+\textbf{Résultats :}
+\begin{itemize}
+    \item Puissance porteuse : $\boxed{P_c \approx 27{,}6 \text{ kW}}$
+    \item Puissance par bande latérale : $\boxed{P_{bl} \approx 5{,}2 \text{ kW}}$
+    \item Puissance totale bandes latérales : $\boxed{2 \times 5{,}2 = 10{,}4 \text{ kW}}$
+\end{itemize}
+Vérification : $P_c + P_{bl,total} = 27{,}6 + 10{,}4 = 38$ kW ✓
+}}
+\end{center}
+
+\subsection{Question f) : Nouveau taux de modulation}
+
+\textbf{Raisonnement :}
+
+Si la puissance totale est réduite à 32 kW en changeant le signal modulant, la puissance porteuse reste constante. On utilise la relation :
+
+\begin{equation}
+    P_t = P_c\left(1 + \frac{m^2}{2}\right)
+\end{equation}
+
+\begin{equation}
+    32000 = 27600\left(1 + \frac{m_{new}^2}{2}\right)
+\end{equation}
+
+\begin{equation}
+    \frac{m_{new}^2}{2} = \frac{32000}{27600} - 1 = 0{,}159
+\end{equation}
+
+\begin{equation}
+    m_{new} = \sqrt{2 \times 0{,}159} \approx 0{,}565 = 56{,}5\%
+\end{equation}
+
+\begin{center}
+\fbox{\parbox{0.8\textwidth}{
+\textbf{Résultat :} Le nouveau taux de modulation est $\boxed{m \approx 56{,}5\%}$
+}}
+\end{center}
+
+\subsection{Simulations Matlab}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{images_td/td_ex1_signal_temporel.png}
+    \caption{Signal AM temporel avec enveloppe}
+    \label{fig:ex1_temporel}
+\end{figure}
+
+La figure \ref{fig:ex1_temporel} montre le signal AM dans le domaine temporel. On observe clairement l'enveloppe du signal qui suit la forme du signal modulant. Le taux de modulation de 87\% est visible par l'amplitude de variation de l'enveloppe.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{images_td/td_ex1_spectre.png}
+    \caption{Spectre du signal AM}
+    \label{fig:ex1_spectre}
+\end{figure}
+
+La figure \ref{fig:ex1_spectre} présente le spectre fréquentiel du signal AM. On distingue :
+\begin{itemize}
+    \item La raie centrale à la fréquence porteuse $f_c \approx 600$ kHz
+    \item Les deux bandes latérales espacées de $\pm f_m \approx \pm 5$ kHz
+    \item L'amplitude relative des bandes latérales par rapport à la porteuse confirme le taux de modulation calculé
+\end{itemize}
+
+\newpage
+
+\section{Exercice 2 : Signal multi-fréquences}
+
+\subsection{Énoncé}
+
+On souhaite transmettre un signal m(t) composé de trois fréquences :
+\begin{itemize}
+    \item 440 Hz d'amplitude 1 volt
+    \item 560 Hz d'amplitude 2 volts
+    \item 680 Hz d'amplitude 1 volt
+\end{itemize}
+
+Ce signal sera modulé autour d'une porteuse pour être transmis via une antenne $\lambda/4$ onde de longueur 30 cm.
+
+\subsection{Question 1 : Équation mathématique du signal modulant}
+
+Le signal modulant s'écrit :
+
+\begin{equation}
+    m(t) = 1 \times \cos(2\pi \times 440 \times t) + 2 \times \cos(2\pi \times 560 \times t) + 1 \times \cos(2\pi \times 680 \times t)
+\end{equation}
+
+\subsection{Question 2 : Spectre du signal modulant}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{images_td/td_ex2_signal_modulant.png}
+    \caption{Signal modulant m(t) et son spectre}
+    \label{fig:ex2_modulant}
+\end{figure}
+
+Le spectre du signal modulant (figure \ref{fig:ex2_modulant}) présente trois raies aux fréquences 440, 560 et 680 Hz, avec des amplitudes respectives de 1, 2 et 1 volt.
+
+\subsection{Question 3 : Fréquence porteuse}
+
+Pour une antenne $\lambda/4$ de longueur 30 cm :
+
+\begin{equation}
+    \frac{\lambda}{4} = 0{,}30 \text{ m} \Rightarrow \lambda = 1{,}2 \text{ m}
+\end{equation}
+
+La fréquence porteuse est :
+
+\begin{equation}
+    f_p = \frac{c}{\lambda} = \frac{3 \times 10^8}{1{,}2} = 250 \text{ MHz}
+\end{equation}
+
+\textbf{Réponse :} La fréquence porteuse adaptée à l'antenne est $f_p = 250$ MHz.
+
+\subsection{Question 4 : Signal modulé}
+
+Avec un coefficient de modulateur $k = 1$ et une amplitude de porteuse $V_p = 3$ V, le signal modulé s'écrit :
+
+\begin{equation}
+    s(t) = V_p[1 + k \cdot m(t)] \cos(2\pi f_p t)
+\end{equation}
+
+\begin{equation}
+    s(t) = 3[1 + m(t)] \cos(2\pi \times 250 \times 10^6 \times t)
+\end{equation}
+
+En développant :
+
+\begin{multline}
+    s(t) = 3\cos(2\pi f_p t) + 3\cos(2\pi \times 440 \times t)\cos(2\pi f_p t) \\
+    + 6\cos(2\pi \times 560 \times t)\cos(2\pi f_p t) + 3\cos(2\pi \times 680 \times t)\cos(2\pi f_p t)
+\end{multline}
+
+\subsection{Question 5 : Spectre du signal modulé}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{images_td/td_ex2_spectre_module.png}
+    \caption{Spectre du signal modulé AM}
+    \label{fig:ex2_spectre}
+\end{figure}
+
+Le spectre du signal modulé (figure \ref{fig:ex2_spectre}) montre :
+\begin{itemize}
+    \item La porteuse à 250 MHz
+    \item Six bandes latérales correspondant aux trois fréquences modulantes
+    \item Bandes latérales inférieures : 250 MHz - 440 Hz, 250 MHz - 560 Hz, 250 MHz - 680 Hz
+    \item Bandes latérales supérieures : 250 MHz + 440 Hz, 250 MHz + 560 Hz, 250 MHz + 680 Hz
+\end{itemize}
+
+\subsection{Question 8 : Filtrage et démodulation}
+
+Après filtrage passe-bande [500 Hz - 600 Hz], seule la composante à 560 Hz est conservée.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{images_td/td_ex2_demodulation.png}
+    \caption{Démodulation du signal filtré}
+    \label{fig:ex2_demod}
+\end{figure}
+
+La figure \ref{fig:ex2_demod} montre le processus de démodulation :
+\begin{enumerate}
+    \item Signal modulant filtré (560 Hz uniquement)
+    \item Signal AM filtré
+    \item Signal démodulé comparé au signal original
+\end{enumerate}
+
+Le type de filtre utilisé est un \textbf{filtre passe-bande} suivi d'une \textbf{démodulation synchrone cohérente}.
+
+\newpage
+
+\section{Exercice 3 : Modulation FM}
+
+\subsection{Énoncé}
+
+Un signal modulant sinusoïdal $x(t) = A_x \cos(2\pi f_x t)$ d'amplitude $A_x = 2$ V et de fréquence $f_x = 2$ kHz attaque un modulateur FM de sensibilité $k_f = 1000$ Hz/V.
+
+La porteuse du modulateur FM, $p(t) = A_p \cos(2\pi f_p t + \varphi_p(t))$, a pour amplitude $A_p = 25$ V et pour fréquence $f_p = 100$ MHz.
+
+\subsection{Question 1 : Expression du signal de sortie}
+
+Le signal FM s'écrit :
+
+\begin{equation}
+    s(t) = A_p \cos\left(2\pi f_p t + \varphi(t)\right)
+\end{equation}
+
+où la phase instantanée est :
+
+\begin{equation}
+    \varphi(t) = 2\pi k_f \int_0^t x(\tau) d\tau = 2\pi k_f \frac{A_x}{2\pi f_x} \sin(2\pi f_x t) = \frac{k_f A_x}{f_x} \sin(2\pi f_x t)
+\end{equation}
+
+En posant $\beta = \frac{k_f A_x}{f_x}$ (indice de modulation), on obtient :
+
+\begin{equation}
+    s(t) = 25 \cos\left(2\pi \times 100 \times 10^6 \times t + \beta \sin(2\pi \times 2000 \times t)\right)
+\end{equation}
+
+\subsection{Question 2 : Excursion en fréquence}
+
+L'excursion en fréquence (déviation maximale) est :
+
+\begin{equation}
+    \Delta f = k_f \times A_x = 1000 \times 2 = 2000 \text{ Hz}
+\end{equation}
+
+\textbf{Réponse :} L'excursion en fréquence est $\Delta f = 2000$ Hz = 2 kHz.
+
+\subsection{Question 3 : Indice de modulation}
+
+L'indice de modulation est :
+
+\begin{equation}
+    \beta = \frac{\Delta f}{f_x} = \frac{2000}{2000} = 1{,}0
+\end{equation}
+
+\textbf{Réponse :} L'indice de modulation est $\beta = 1{,}0$.
+
+\subsection{Question 4 : Bande occupée}
+
+La bande occupée par le signal modulé est donnée par la règle de Carson :
+
+\begin{equation}
+    BW_{Carson} = 2(\Delta f + f_x) = 2(2000 + 2000) = 8000 \text{ Hz} = 8 \text{ kHz}
+\end{equation}
+
+\textbf{Réponse :} La bande occupée par le signal modulé est $BW = 8$ kHz.
+
+\subsection{Question 5 : Nouveau signal modulant}
+
+Si le signal modulant voit sa fréquence multipliée par 2 et son amplitude divisée par 3 :
+
+\begin{itemize}
+    \item $f_{x,new} = 2 \times 2000 = 4000$ Hz
+    \item $A_{x,new} = \frac{2}{3} \approx 0{,}667$ V
+\end{itemize}
+
+Nouvelle excursion :
+\begin{equation}
+    \Delta f_{new} = k_f \times A_{x,new} = 1000 \times 0{,}667 = 667 \text{ Hz}
+\end{equation}
+
+Nouvel indice de modulation :
+\begin{equation}
+    \beta_{new} = \frac{\Delta f_{new}}{f_{x,new}} = \frac{667}{4000} \approx 0{,}167
+\end{equation}
+
+\textbf{Réponse :} Le nouvel indice de modulation est $\beta_{new} \approx 0{,}167$.
+
+\subsection{Question 6 : Démodulation}
+
+Avec $\beta = 1{,}0$, on est à la limite entre NFM (Narrow Band FM, $\beta < 1$) et WFM (Wide Band FM, $\beta > 1$).
+
+Pour $\beta < 1$ (comme $\beta_{new} = 0{,}167$), la démodulation est \textbf{cohérente}. On peut utiliser un démodulateur simple comme un discriminateur de fréquence ou un détecteur de pente.
+
+\textbf{Réponse :} Avec $\beta < 1$, la démodulation est cohérente et peut être réalisée avec un discriminateur de fréquence simple.
+
+\subsection{Simulations Matlab}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{images_td/td_ex3_signal_modulant.png}
+    \caption{Signal modulant x(t)}
+    \label{fig:ex3_modulant}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{images_td/td_ex3_signal_fm.png}
+    \caption{Signal FM avec $\beta = 1{,}0$}
+    \label{fig:ex3_fm}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{images_td/td_ex3_frequence_instantanee.png}
+    \caption{Fréquence instantanée du signal FM}
+    \label{fig:ex3_freq_inst}
+\end{figure}
+
+La figure \ref{fig:ex3_freq_inst} montre la variation de la fréquence instantanée du signal FM. On observe que :
+\begin{itemize}
+    \item La fréquence varie entre $f_p - \Delta f$ et $f_p + \Delta f$
+    \item La variation suit la forme du signal modulant
+    \item L'excursion maximale est bien de $\pm 2000$ Hz
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{images_td/td_ex3_comparaison.png}
+    \caption{Comparaison signal original vs nouveau signal}
+    \label{fig:ex3_comp}
+\end{figure}
+
+La figure \ref{fig:ex3_comp} compare les paramètres du signal original et du nouveau signal. On constate que :
+\begin{itemize}
+    \item L'indice de modulation diminue significativement (de 1.0 à 0.167)
+    \item L'excursion en fréquence est réduite (de 2000 Hz à 667 Hz)
+    \item La bande occupée diminue également
+    \item Le nouveau signal est clairement en mode NFM ($\beta < 0{,}5$)
+\end{itemize}
+
+\newpage
+
+\section*{Conclusion}
+\addcontentsline{toc}{section}{Conclusion}
+
+Ces travaux dirigés nous ont permis d'approfondir notre compréhension des modulations d'amplitude (AM) et de fréquence (FM) à travers des exercices concrets et des simulations Matlab.
+
+\subsection*{Synthèse des résultats}
+
+\subsubsection*{Modulation AM (Exercices 1 et 2)}
+
+Nous avons étudié les caractéristiques fondamentales de la modulation AM :
+
+\begin{itemize}
+    \item \textbf{Structure spectrale :} Un signal AM présente une porteuse et deux bandes latérales symétriques
+    \item \textbf{Taux de modulation :} Détermine l'amplitude des bandes latérales et la qualité de la modulation
+    \item \textbf{Répartition des puissances :} La majorité de la puissance est dans la porteuse (inefficace énergétiquement)
+    \item \textbf{Bande passante :} $BW = 2f_m$, proportionnelle à la fréquence modulante
+    \item \textbf{Démodulation :} Peut être réalisée de façon synchrone (cohérente) ou par détection d'enveloppe
+\end{itemize}
+
+L'exercice 2 a montré comment un signal multi-fréquences génère plusieurs paires de bandes latérales, et comment le filtrage permet de sélectionner une composante particulière avant démodulation.
+
+\subsubsection*{Modulation FM (Exercice 3)}
+
+L'étude de la modulation FM a mis en évidence :
+
+\begin{itemize}
+    \item \textbf{Excursion en fréquence :} $\Delta f = k_f \times A_x$, proportionnelle à l'amplitude du signal modulant
+    \item \textbf{Indice de modulation :} $\beta = \Delta f / f_x$, paramètre clé qui détermine le type de FM
+    \item \textbf{Classification :} NFM ($\beta < 1$) vs WFM ($\beta > 1$)
+    \item \textbf{Bande de Carson :} $BW = 2(\Delta f + f_x)$, plus large que l'AM
+    \item \textbf{Démodulation :} Cohérente pour NFM, nécessite un discriminateur ou une PLL pour WFM
+\end{itemize}
+
+\subsection*{Comparaison AM vs FM}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|c|c|}
+\hline
+\textbf{Critère} & \textbf{AM} & \textbf{FM} \\
+\hline
+Bande passante & $2f_m$ & $2(\Delta f + f_m)$ \\
+Efficacité spectrale & Bonne & Moyenne \\
+Résistance au bruit & Moyenne & Excellente \\
+Complexité & Simple & Moyenne \\
+Efficacité énergétique & Faible & Bonne \\
+Applications & Radio GO/PO & Radio FM, TV \\
+\hline
+\end{tabular}
+\caption{Comparaison AM vs FM}
+\end{table}
+
+\subsection*{Applications pratiques}
+
+Les connaissances acquises dans ces TD trouvent des applications directes dans :
+
+\begin{itemize}
+    \item \textbf{Radiodiffusion :} AM pour les ondes longues/moyennes, FM pour la bande 88-108 MHz
+    \item \textbf{Télévision :} Modulation d'amplitude pour l'image, FM pour le son
+    \item \textbf{Communications mobiles :} Techniques dérivées (QAM, FSK, etc.)
+    \item \textbf{Stéréophonie :} Multiplexage de canaux en FM
+\end{itemize}
+
+\subsection*{Apports des simulations Matlab}
+
+Les simulations Matlab ont été essentielles pour :
+\begin{itemize}
+    \item Visualiser les signaux dans les domaines temporel et fréquentiel
+    \item Valider les calculs théoriques
+    \item Comprendre l'impact des paramètres sur les signaux modulés
+    \item Expérimenter avec différentes configurations
+\end{itemize}
+
+\subsection*{Conclusion générale}
+
+Ces travaux dirigés ont permis de consolider notre compréhension des modulations AM et FM, tant sur le plan théorique que pratique. Les calculs mathématiques, couplés aux simulations Matlab, ont fourni une vision complète de ces techniques fondamentales en télécommunications.
+
+La maîtrise de ces concepts est essentielle pour aborder des techniques de modulation plus avancées (modulations numériques, modulations multi-porteuses, etc.) utilisées dans les systèmes de communication modernes.
+
+\end{document}
