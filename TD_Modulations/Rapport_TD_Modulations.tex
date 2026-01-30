@@ -543,23 +543,72 @@ La figure \ref{fig:ex3_comp} compare les paramètres du signal original et du no
 
 Les bandes de fréquences allouées à la radiodiffusion sont repérées par :
 \begin{itemize}
-    \item GO : 1052 m à 2000 m
+    \item GO (Grandes Ondes) : 1052 m à 2000 m
     \item FM : de 87,5 MHz à 108 MHz
 \end{itemize}
 
-\subsection{Question 1 : Tableau fréquences et longueurs d'onde}
+\subsection{Question 1 : Compléter le tableau fréquences et longueurs d'onde}
 
-\textbf{Raisonnement :}
+\textbf{Raisonnement détaillé :}
 
-La relation entre fréquence et longueur d'onde est : $f = \frac{c}{\lambda}$ où $c = 3 \times 10^8$ m/s.
+La relation fondamentale entre la fréquence $f$, la longueur d'onde $\lambda$ et la vitesse de propagation $c$ est donnée par :
 
-Pour GO : $f_{min} = \frac{3 \times 10^8}{2000} = 150$ kHz, $f_{max} = \frac{3 \times 10^8}{1052} \approx 285$ kHz
+\begin{equation}
+    c = \lambda \times f \quad \Rightarrow \quad f = \frac{c}{\lambda}
+\end{equation}
 
-Pour FM : $\lambda_{max} = \frac{3 \times 10^8}{87{,}5 \times 10^6} \approx 3{,}43$ m, $\lambda_{min} = \frac{3 \times 10^8}{108 \times 10^6} \approx 2{,}78$ m
+où $c = 3 \times 10^8$ m/s est la vitesse de la lumière dans le vide (et approximativement dans l'air).
+
+\textbf{Pour la bande GO :}
+
+On nous donne les longueurs d'onde : $\lambda_{min} = 1052$ m et $\lambda_{max} = 2000$ m.
+
+Il faut calculer les fréquences correspondantes. Attention : la fréquence est inversement proportionnelle à la longueur d'onde, donc :
+\begin{itemize}
+    \item La longueur d'onde maximale correspond à la fréquence minimale
+    \item La longueur d'onde minimale correspond à la fréquence maximale
+\end{itemize}
+
+Calcul de la fréquence minimale :
+\begin{equation}
+    f_{GO,min} = \frac{c}{\lambda_{max}} = \frac{3 \times 10^8}{2000} = 1{,}5 \times 10^5 \text{ Hz} = 150 \text{ kHz}
+\end{equation}
+
+Calcul de la fréquence maximale :
+\begin{equation}
+    f_{GO,max} = \frac{c}{\lambda_{min}} = \frac{3 \times 10^8}{1052} \approx 2{,}85 \times 10^5 \text{ Hz} \approx 285 \text{ kHz}
+\end{equation}
+
+\textbf{Pour la bande FM :}
+
+On nous donne les fréquences : $f_{min} = 87{,}5$ MHz et $f_{max} = 108$ MHz.
+
+Il faut calculer les longueurs d'onde correspondantes.
+
+Calcul de la longueur d'onde maximale (correspond à $f_{min}$) :
+\begin{equation}
+    \lambda_{FM,max} = \frac{c}{f_{min}} = \frac{3 \times 10^8}{87{,}5 \times 10^6} = \frac{300}{87{,}5} \approx 3{,}43 \text{ m}
+\end{equation}
+
+Calcul de la longueur d'onde minimale (correspond à $f_{max}$) :
+\begin{equation}
+    \lambda_{FM,min} = \frac{c}{f_{max}} = \frac{3 \times 10^8}{108 \times 10^6} = \frac{300}{108} \approx 2{,}78 \text{ m}
+\end{equation}
+
+\textbf{Interprétation physique :}
+
+\begin{itemize}
+    \item Les ondes GO ont des longueurs d'onde très grandes (1-2 km), ce qui leur permet de se propager par onde de sol et de contourner les obstacles. C'est pourquoi elles sont utilisées pour la radiodiffusion longue distance.
+    
+    \item Les ondes FM ont des longueurs d'onde courtes (2,78-3,43 m), ce qui limite leur portée à la ligne de vue directe. Elles offrent cependant une meilleure qualité audio.
+    
+    \item Le rapport de fréquences entre FM et GO est d'environ 400:1, ce qui explique les différences de propagation et d'utilisation.
+\end{itemize}
 
 \begin{center}
 \fbox{\parbox{0.95\textwidth}{
 \textbf{Résultat :}
+
 \begin{table}[H]
 \centering
 \begin{tabular}{|l|c|c|}
@@ -574,44 +623,178 @@ FM & De 87,5 MHz à 108 MHz & De 2,78 m à 3,43 m \\
 }}
 \end{center}
 
-\subsection{Question 2 : Nombre d'émetteurs en GO}
+\subsection{Question 2 : Nombre maximum d'émetteurs en GO}
 
-\textbf{Raisonnement :}
+\textbf{Raisonnement détaillé :}
 
-Bande totale GO : $285 - 150 = 135$ kHz. Largeur par canal : 9 kHz.
+La commission d'allocation des fréquences attribue un canal à chaque émetteur. En GO, chaque canal a une largeur spectrale de 9 kHz. Cette largeur est nécessaire pour transmettre le signal AM avec une qualité suffisante.
 
-Nombre d'émetteurs : $N = \left\lfloor \frac{135}{9} \right\rfloor = 15$
+\textbf{Étape 1 : Calculer la bande totale disponible}
+
+La bande totale disponible en GO est :
+\begin{equation}
+    BW_{totale} = f_{GO,max} - f_{GO,min} = 285 - 150 = 135 \text{ kHz}
+\end{equation}
+
+\textbf{Étape 2 : Calculer le nombre de canaux}
+
+Le nombre maximum d'émetteurs (canaux) est obtenu en divisant la bande totale par la largeur d'un canal :
+\begin{equation}
+    N = \left\lfloor \frac{BW_{totale}}{BW_{canal}} \right\rfloor = \left\lfloor \frac{135}{9} \right\rfloor = \left\lfloor 15 \right\rfloor = 15
+\end{equation}
+
+Le symbole $\lfloor \cdot \rfloor$ représente la partie entière (on ne peut pas avoir une fraction d'émetteur).
+
+\textbf{Vérification :}
+\begin{equation}
+    15 \times 9 = 135 \text{ kHz} \quad \checkmark
+\end{equation}
+
+\textbf{Interprétation :}
+
+\begin{itemize}
+    \item Chaque émetteur occupe 9 kHz de bande passante
+    \item Les 15 émetteurs se répartissent uniformément sur la bande GO
+    \item L'espacement entre canaux adjacents est de 9 kHz pour éviter les interférences
+    \item En pratique, on laisse souvent des bandes de garde entre canaux pour améliorer la qualité
+\end{itemize}
 
 \begin{center}
 \fbox{\parbox{0.7\textwidth}{
 \centering
-\textbf{Résultat :} $N = 15$ émetteurs
+\textbf{Résultat :} Le nombre maximum d'émetteurs autorisés sur la bande GO est $N = 15$
 }}
 \end{center}
 
 \subsection{Question 3 : Fonctions contenant le signal modulant}
 
-\textbf{a) En modulation AM :}
+\textbf{Contexte théorique :}
 
-Signal : $s(t) = A_c[1 + m \cdot x(t)] \cos(2\pi f_c t)$
+Un signal modulé s'exprime généralement sous la forme :
+\begin{equation}
+    s(t) = X(t) \cos(\theta(t))
+\end{equation}
+
+où :
+\begin{itemize}
+    \item $X(t)$ est l'amplitude instantanée
+    \item $\theta(t)$ est la phase instantanée
+\end{itemize}
+
+Le signal modulant $x(t)$ (l'information à transmettre) peut être contenu soit dans $X(t)$ (modulation d'amplitude), soit dans $\theta(t)$ (modulation de phase/fréquence).
+
+\subsubsection{a) En modulation d'amplitude (AM)}
+
+\textbf{Raisonnement :}
+
+En modulation AM, on fait varier l'amplitude de la porteuse en fonction du signal modulant. Le signal AM s'écrit :
+
+\begin{equation}
+    s_{AM}(t) = A_c[1 + m \cdot x(t)] \cos(2\pi f_c t)
+\end{equation}
+
+où :
+\begin{itemize}
+    \item $A_c$ : amplitude de la porteuse
+    \item $m$ : taux de modulation ($0 < m \leq 1$)
+    \item $x(t)$ : signal modulant (normalisé entre -1 et +1)
+    \item $f_c$ : fréquence de la porteuse
+\end{itemize}
+
+En identifiant avec la forme générale $s(t) = X(t) \cos(\theta(t))$, on obtient :
+\begin{align}
+    X(t) &= A_c[1 + m \cdot x(t)] \quad \text{(contient } x(t)\text{)} \\
+    \theta(t) &= 2\pi f_c t \quad \text{(ne contient pas } x(t)\text{)}
+\end{align}
+
+\textbf{Interprétation physique :}
+
+\begin{itemize}
+    \item L'amplitude varie entre $A_c(1-m)$ et $A_c(1+m)$
+    \item Quand $x(t) = 1$ (maximum), l'amplitude est maximale : $A_c(1+m)$
+    \item Quand $x(t) = -1$ (minimum), l'amplitude est minimale : $A_c(1-m)$
+    \item La fréquence reste constante à $f_c$
+    \item L'enveloppe du signal reproduit la forme de $x(t)$
+\end{itemize}
 
 \begin{center}
-\fbox{\parbox{0.8\textwidth}{
+\fbox{\parbox{0.85\textwidth}{
 \centering
-\textbf{Résultat :} $X(t) = A_c[1 + m \cdot x(t)]$ (amplitude)
+\textbf{Résultat :} En modulation AM, la fonction qui contient le signal modulant est :
+
+$$X(t) = A_c[1 + m \cdot x(t)]$$
+
+C'est l'\textbf{amplitude} qui varie en fonction du signal modulant.
 }}
 \end{center}
 
-\textbf{b) En modulation FM :}
+\subsubsection{b) En modulation de fréquence (FM)}
 
-Signal : $s(t) = A_c \cos(2\pi f_c t + 2\pi k_f \int x(\tau) d\tau)$
+\textbf{Raisonnement :}
+
+En modulation FM, on fait varier la fréquence instantanée de la porteuse en fonction du signal modulant. Le signal FM s'écrit :
+
+\begin{equation}
+    s_{FM}(t) = A_c \cos\left(2\pi f_c t + 2\pi k_f \int_0^t x(\tau) d\tau\right)
+\end{equation}
+
+où :
+\begin{itemize}
+    \item $A_c$ : amplitude constante de la porteuse
+    \item $f_c$ : fréquence centrale de la porteuse
+    \item $k_f$ : sensibilité en fréquence (Hz/V)
+    \item $x(t)$ : signal modulant
+\end{itemize}
+
+En identifiant avec la forme générale $s(t) = X(t) \cos(\theta(t))$, on obtient :
+\begin{align}
+    X(t) &= A_c \quad \text{(constante, ne contient pas } x(t)\text{)} \\
+    \theta(t) &= 2\pi f_c t + 2\pi k_f \int_0^t x(\tau) d\tau \quad \text{(contient } x(t)\text{)}
+\end{align}
+
+La fréquence instantanée est :
+\begin{equation}
+    f_i(t) = \frac{1}{2\pi} \frac{d\theta}{dt} = f_c + k_f \cdot x(t)
+\end{equation}
+
+\textbf{Interprétation physique :}
+
+\begin{itemize}
+    \item L'amplitude reste constante à $A_c$
+    \item La fréquence varie entre $f_c - k_f|x_{max}|$ et $f_c + k_f|x_{max}|$
+    \item Quand $x(t) > 0$, la fréquence augmente au-dessus de $f_c$
+    \item Quand $x(t) < 0$, la fréquence diminue en dessous de $f_c$
+    \item L'excursion maximale en fréquence est $\Delta f = k_f \cdot |x_{max}|$
+\end{itemize}
 
 \begin{center}
-\fbox{\parbox{0.8\textwidth}{
+\fbox{\parbox{0.85\textwidth}{
 \centering
-\textbf{Résultat :} $\theta(t) = 2\pi f_c t + 2\pi k_f \int x(\tau) d\tau$ (phase)
+\textbf{Résultat :} En modulation FM, la fonction qui contient le signal modulant est :
+
+$$\theta(t) = 2\pi f_c t + 2\pi k_f \int_0^t x(\tau) d\tau$$
+
+C'est la \textbf{phase} (et donc la fréquence instantanée) qui varie en fonction du signal modulant.
 }}
 \end{center}
+
+\textbf{Comparaison AM vs FM :}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|c|c|}
+\hline
+\textbf{Critère} & \textbf{AM} & \textbf{FM} \\
+\hline
+Fonction modulée & Amplitude $X(t)$ & Phase $\theta(t)$ \\
+Amplitude & Variable & Constante \\
+Fréquence & Constante & Variable \\
+Résistance au bruit & Moyenne & Excellente \\
+Bande passante & $2f_m$ & $2(\Delta f + f_m)$ \\
+\hline
+\end{tabular}
+\caption{Comparaison des modulations AM et FM}
+\end{table}
 
 \begin{figure}[H]
     \centering
@@ -629,70 +812,293 @@ Signal : $s(t) = A_c \cos(2\pi f_c t + 2\pi k_f \int x(\tau) d\tau)$
 
 \section{Problème 2 : Étude du modulateur FM}
 
-\subsection{Partie 1 : NFM ($\beta = 0{,}1$)}
+Ce problème étudie deux cas de modulation FM : NFM (Narrow Band FM) pour $\beta < 1$ et WFM (Wide Band FM) pour $\beta > 1$.
 
-Paramètres : $f_p = 100$ MHz, $f_m = 10$ kHz, $A_m = 1$ V, $R = 50$ $\Omega$
+\subsection{Partie 1 : Narrow Band FM (NFM)}
 
-\subsubsection{Question 1 : Expression de $\theta(t)$}
+\subsubsection{Paramètres}
+
+\begin{itemize}
+    \item Indice de modulation : $\beta = 0{,}1$
+    \item Fréquence porteuse : $f_p = 100$ MHz
+    \item Fréquence modulante : $f_m = 10$ kHz
+    \item Amplitude modulante : $A_m = 1$ V
+    \item Résistance de charge : $R = 50$ $\Omega$
+\end{itemize}
+
+\subsubsection{Question 1 : Expression de $\theta(t)$ et calcul de $k$}
+
+\textbf{Raisonnement détaillé :}
+
+La phase totale d'un signal FM est composée de deux termes :
+\begin{equation}
+    \theta(t) = \underbrace{2\pi f_p t}_{\text{phase porteuse}} + \underbrace{\varphi(t)}_{\text{phase modulée}}
+\end{equation}
+
+La phase modulée $\varphi(t)$ est l'intégrale du signal modulant multipliée par la sensibilité $k$ :
+\begin{equation}
+    \varphi(t) = 2\pi k \int_0^t x(\tau) d\tau
+\end{equation}
+
+Pour un signal modulant sinusoïdal $x(t) = A_m \cos(2\pi f_m t)$, calculons l'intégrale :
+\begin{align}
+    \int_0^t A_m \cos(2\pi f_m \tau) d\tau &= A_m \left[\frac{\sin(2\pi f_m \tau)}{2\pi f_m}\right]_0^t \\
+    &= \frac{A_m}{2\pi f_m} \sin(2\pi f_m t)
+\end{align}
+
+Donc :
+\begin{equation}
+    \varphi(t) = 2\pi k \cdot \frac{A_m}{2\pi f_m} \sin(2\pi f_m t) = \frac{k A_m}{f_m} \sin(2\pi f_m t)
+\end{equation}
+
+Par définition, l'indice de modulation est :
+\begin{equation}
+    \beta = \frac{k A_m}{f_m}
+\end{equation}
+
+On peut donc écrire :
+\begin{equation}
+    \varphi(t) = \beta \sin(2\pi f_m t)
+\end{equation}
+
+Et la phase totale devient :
+\begin{equation}
+    \theta(t) = 2\pi f_p t + \beta \sin(2\pi f_m t)
+\end{equation}
+
+\textbf{Calcul de la sensibilité $k$ :}
+
+De la relation $\beta = \frac{k A_m}{f_m}$, on tire :
+\begin{equation}
+    k = \frac{\beta \cdot f_m}{A_m} = \frac{0{,}1 \times 10000}{1} = 1000 \text{ Hz/V}
+\end{equation}
+
+\textbf{Interprétation :}
+\begin{itemize}
+    \item $k = 1000$ Hz/V signifie qu'une variation de 1 V du signal modulant produit une variation de 1000 Hz de la fréquence instantanée
+    \item Avec $\beta = 0{,}1 < 1$, on est en mode NFM (bande étroite)
+\end{itemize}
+
+\begin{center}
+\fbox{\parbox{0.85\textwidth}{
+\centering
+\textbf{Résultat :} 
+$$\theta(t) = 2\pi \times 100 \times 10^6 \times t + 0{,}1 \sin(2\pi \times 10^4 \times t)$$
+
+Sensibilité : $k = 1000$ Hz/V
+}}
+\end{center}
+
+\subsubsection{Question 2 : Forme de $s(t)$ avec développement de Bessel}
+
+\textbf{Raisonnement théorique :}
+
+Le signal FM s'écrit :
+\begin{equation}
+    s(t) = A_p \cos(\theta(t)) = A_p \cos(2\pi f_p t + \beta \sin(2\pi f_m t))
+\end{equation}
+
+Pour $\beta \ll 1$ (NFM), on peut utiliser les approximations de Taylor :
+\begin{align}
+    \cos(\beta \sin(\alpha)) &\approx 1 - \frac{\beta^2}{2}\sin^2(\alpha) \approx 1 \\
+    \sin(\beta \sin(\alpha)) &\approx \beta \sin(\alpha)
+\end{align}
+
+En utilisant la formule trigonométrique :
+\begin{equation}
+    \cos(A + B) = \cos A \cos B - \sin A \sin B
+\end{equation}
+
+On obtient :
+\begin{multline}
+    s(t) \approx A_p[\cos(2\pi f_p t) \cdot 1 - \sin(2\pi f_p t) \cdot \beta \sin(2\pi f_m t)] \\
+    = A_p \cos(2\pi f_p t) - \beta A_p \sin(2\pi f_p t) \sin(2\pi f_m t)
+\end{multline}
+
+En utilisant la formule $\sin A \sin B = \frac{1}{2}[\cos(A-B) - \cos(A+B)]$ :
+\begin{multline}
+    s(t) \approx A_p \cos(2\pi f_p t) \\
+    - \frac{\beta A_p}{2}[\cos(2\pi(f_p - f_m)t) - \cos(2\pi(f_p + f_m)t)]
+\end{multline}
+
+\textbf{Interprétation spectrale :}
+
+Le spectre NFM contient :
+\begin{itemize}
+    \item Une porteuse à $f_p$ d'amplitude $A_p$
+    \item Une bande latérale inférieure à $f_p - f_m$ d'amplitude $\frac{\beta A_p}{2}$
+    \item Une bande latérale supérieure à $f_p + f_m$ d'amplitude $\frac{\beta A_p}{2}$
+\end{itemize}
+
+C'est similaire à l'AM ! La différence est que les bandes latérales sont en opposition de phase.
+
+\subsubsection{Question 3 : Puissance transmise}
 
 \textbf{Raisonnement :}
 
-$\theta(t) = 2\pi f_p t + \varphi(t)$ où $\varphi(t) = \beta \sin(2\pi f_m t)$
+Pour un signal sinusoïdal $s(t) = A_p \cos(2\pi f_p t)$ dans une charge $R$, la puissance moyenne est :
+\begin{equation}
+    P = \frac{1}{T} \int_0^T \frac{s^2(t)}{R} dt = \frac{A_p^2}{2R}
+\end{equation}
 
-Avec $\beta = \frac{k A_m}{f_m}$, on obtient $k = \frac{\beta f_m}{A_m} = 1000$ Hz/V
+En FM, l'amplitude reste constante à $A_p$, donc la puissance ne dépend pas de la modulation :
+\begin{equation}
+    P = \frac{A_p^2}{2R} = \frac{1^2}{2 \times 50} = \frac{1}{100} = 0{,}01 \text{ W} = 10 \text{ mW}
+\end{equation}
+
+\textbf{Conversion en dB et dBm :}
+
+En dB (par rapport à 1 W) :
+\begin{equation}
+    P_{dB} = 10 \log_{10}\left(\frac{P}{1 \text{ W}}\right) = 10 \log_{10}(0{,}01) = -20 \text{ dB}
+\end{equation}
+
+En dBm (par rapport à 1 mW) :
+\begin{equation}
+    P_{dBm} = 10 \log_{10}\left(\frac{P}{1 \text{ mW}}\right) = 10 \log_{10}(10) = 10 \text{ dBm}
+\end{equation}
 
 \begin{center}
-\fbox{\parbox{0.8\textwidth}{
+\fbox{\parbox{0.75\textwidth}{
 \centering
-\textbf{Résultat :} $\theta(t) = 2\pi f_p t + 0{,}1 \sin(2\pi f_m t)$
+\textbf{Résultats :} 
+\begin{itemize}
+    \item $P = 10$ mW
+    \item $P = -20$ dB
+    \item $P = 10$ dBm
+\end{itemize}
 }}
 \end{center}
 
-\subsubsection{Question 3 : Puissance}
+\subsubsection{Question 4 : Largeur du canal}
 
-$P = \frac{A_p^2}{2R} = \frac{1}{100} = 10$ mW
+\textbf{Raisonnement :}
+
+Pour NFM ($\beta \ll 1$), la règle de Carson simplifiée donne :
+\begin{equation}
+    BW \approx 2 f_m
+\end{equation}
+
+Car $\Delta f = \beta \cdot f_m \ll f_m$, donc $BW = 2(\Delta f + f_m) \approx 2f_m$.
+
+Application numérique :
+\begin{equation}
+    BW = 2 \times 10 = 20 \text{ kHz}
+\end{equation}
+
+\textbf{Comparaison avec AM :}
+
+En AM, la bande passante est aussi $BW_{AM} = 2f_m = 20$ kHz. Pour NFM, on obtient la même bande passante qu'en AM, mais avec une meilleure résistance au bruit.
 
 \begin{center}
-\fbox{\parbox{0.7\textwidth}{
-\centering
-\textbf{Résultats :} $P = 10$ mW $= 10$ dBm
-}}
-\end{center}
-
-\subsubsection{Question 4 : Largeur canal}
-
-$BW \approx 2 f_m = 20$ kHz
-
-\begin{center}
-\fbox{\parbox{0.6\textwidth}{
+\fbox{\parbox{0.65\textwidth}{
 \centering
 \textbf{Résultat :} $BW = 20$ kHz
 }}
 \end{center}
 
-\subsection{Partie 2 : WFM ($\beta = 6$)}
+\subsection{Partie 2 : Wide Band FM (WFM)}
 
-\subsubsection{Question 1 : Coefficients de Bessel}
+\subsubsection{Paramètres}
 
-Pour $\beta = 6$, on garde $|J_n| > 0{,}1$ : 5 termes (n = 0 à 4)
+\begin{itemize}
+    \item Indice de modulation : $\beta = 6$
+    \item Fréquence porteuse : $f_p = 100$ MHz
+    \item Fréquence modulante : $f_m = 10$ kHz
+    \item Amplitude porteuse : $V_p = 1$ V
+    \item Résistance : $R = 50$ $\Omega$
+\end{itemize}
+
+\subsubsection{Question 1 : Décomposition avec coefficients de Bessel}
+
+\textbf{Théorie des fonctions de Bessel :}
+
+Pour un signal FM avec indice $\beta$ quelconque, le développement en série de Fourier fait intervenir les fonctions de Bessel de première espèce $J_n(\beta)$ :
+
+\begin{equation}
+    s(t) = A_p \sum_{n=-\infty}^{+\infty} J_n(\beta) \cos(2\pi(f_p + nf_m)t)
+\end{equation}
+
+Le spectre contient donc une infinité de raies espacées de $f_m$, mais seules celles avec $|J_n(\beta)| > 0{,}1$ sont significatives (contiennent plus de 1\% de la puissance).
+
+\textbf{Pour $\beta = 6$, les coefficients de Bessel sont :}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|c|c|c|c|}
+\hline
+$n$ & $J_n(6)$ & $|J_n(6)|$ & Significatif ? \\
+\hline
+0 & 0,1506 & 0,1506 & Oui \\
+1 & -0,2767 & 0,2767 & Oui \\
+2 & 0,3621 & 0,3621 & Oui \\
+3 & -0,2458 & 0,2458 & Oui \\
+4 & 0,1148 & 0,1148 & Oui \\
+5 & -0,0437 & 0,0437 & Non ($< 0{,}1$) \\
+6 & 0,0138 & 0,0138 & Non ($< 0{,}1$) \\
+\hline
+\end{tabular}
+\end{table}
+
+\textbf{Interprétation :}
+
+On conserve les termes pour $n = 0, 1, 2, 3, 4$, soit 5 valeurs. Comme le spectre est symétrique ($J_{-n} = (-1)^n J_n$), on a :
+\begin{itemize}
+    \item 1 raie centrale (n=0)
+    \item 4 paires de raies latérales (n=±1, ±2, ±3, ±4)
+\end{itemize}
+
+Total : $1 + 2 \times 4 = 9$ raies significatives.
+
+\begin{center}
+\fbox{\parbox{0.75\textwidth}{
+\centering
+\textbf{Résultat :} On conserve 5 termes ($n = 0$ à $4$), soit 9 raies significatives dans le spectre.
+}}
+\end{center}
+
+\subsubsection{Question 3 : Largeur du canal}
+
+\textbf{Raisonnement avec la règle de Carson :}
+
+Pour WFM, la règle de Carson donne :
+\begin{equation}
+    BW = 2(\Delta f + f_m) = 2(k_f A_m + f_m) = 2(\beta f_m + f_m) = 2f_m(\beta + 1)
+\end{equation}
+
+Application numérique :
+\begin{equation}
+    BW = 2 \times 10 \times (6 + 1) = 2 \times 10 \times 7 = 140 \text{ kHz}
+\end{equation}
+
+\textbf{Vérification avec les coefficients de Bessel :}
+
+Avec 4 paires de raies significatives espacées de $f_m = 10$ kHz :
+\begin{equation}
+    BW_{pratique} \approx 2 \times 4 \times f_m = 80 \text{ kHz}
+\end{equation}
+
+La règle de Carson (140 kHz) est plus large car elle garantit 98\% de la puissance, tandis que le critère $|J_n| > 0{,}1$ ne capture qu'environ 95\% de la puissance.
 
 \begin{center}
 \fbox{\parbox{0.7\textwidth}{
 \centering
-\textbf{Résultat :} 9 raies significatives
+\textbf{Résultat :} $BW = 140$ kHz (règle de Carson)
 }}
 \end{center}
 
-\subsubsection{Question 3 : Largeur canal}
+\subsubsection{Question 6 : Puissance transmise}
 
-$BW = 2(\beta f_m + f_m) = 2 \times 10 \times 7 = 140$ kHz
+\textbf{Raisonnement :}
 
-\begin{center}
-\fbox{\parbox{0.6\textwidth}{
-\centering
-\textbf{Résultat :} $BW = 140$ kHz
-}}
-\end{center}
+Comme en NFM, la puissance en FM ne dépend que de l'amplitude de la porteuse :
+\begin{equation}
+    P = \frac{V_p^2}{2R} = \frac{1^2}{2 \times 50} = 0{,}01 \text{ W} = 10 \text{ mW} = 10 \text{ dBm}
+\end{equation}
+
+\textbf{Remarque importante :}
+
+La puissance totale transmise est la même en NFM et WFM (10 mW), mais en WFM elle est répartie sur plus de raies spectrales (9 au lieu de 3). C'est le principe de l'échange bande passante contre qualité en FM.
 
 \begin{figure}[H]
     \centering
