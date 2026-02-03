@@ -839,44 +839,56 @@ fprintf('Composante continue introduite: %.4f V\n', DC_offset);
 \newpage
 \section{Partie II : Démodulation FM en présence de bruit}
 
-\subsection{Objectif}
-
-Cette partie vise à étudier le comportement d'un démodulateur FM en présence d'un signal modulé FM bruité. Nous allons analyser l'effet du bruit gaussien (AWGN) sur la qualité de la démodulation et déterminer le seuil de SNR à partir duquel le signal n'est plus correctement démodulé.
+L'objectif de cette partie est de regarder le comportement d'un démodulateur FM en présence d'un signal modulé FM bruité.
 
 \subsection{Question 1 : Génération du signal modulé FM bruité}
 
-Le signal FM bruité est généré en ajoutant un bruit blanc gaussien (AWGN) au signal modulé FM :
+Le signal FM bruité est généré en ajoutant un bruit blanc gaussien (AWGN) au signal modulé FM avec la fonction \texttt{awgn} :
 
-\begin{lstlisting}[caption=Génération du signal FM bruité]
+\begin{lstlisting}[caption=Code 7b - Génération du signal FM bruité]
 % Signal FM
 s_FM = fmmod(x, fc, fs, delta_f);
 
 % Ajout de bruit AWGN
 SNR_dB = 20;  % Rapport signal/bruit en dB
 s_FM_noisy = awgn(s_FM, SNR_dB, 'measured');
+
+% Visualisation
+figure;
+subplot(2,1,1);
+plot(t, s_FM);
+title('Signal FM sans bruit');
+xlabel('Temps (s)'); ylabel('Amplitude');
+
+subplot(2,1,2);
+plot(t, s_FM_noisy);
+title(sprintf('Signal FM avec bruit (SNR = %d dB)', SNR_dB));
+xlabel('Temps (s)'); ylabel('Amplitude');
 \end{lstlisting}
 
-La fonction \texttt{awgn} ajoute un bruit blanc gaussien avec un rapport signal/bruit (SNR) spécifié en dB.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{images/image7b.png}
+    \caption{Génération du signal FM bruité avec SNR = 20 dB}
+    \label{fig:signal_fm_bruite}
+\end{figure}
 
-\subsection{Question 2 : Démodulation du signal FM bruité}
+La Figure \ref{fig:signal_fm_bruite} montre le signal FM avant et après l'ajout du bruit AWGN. On observe que le bruit se superpose au signal FM modulé. La fonction \texttt{awgn} calcule automatiquement la puissance du signal avec le paramètre \texttt{'measured'} avant d'ajouter le bruit correspondant au SNR spécifié.
 
-Le signal FM bruité est démodulé avec la fonction \texttt{fmdemod} :
+\subsection{Question 2 : Démodulation du signal FM bruité et commentaire}
+
+Le signal FM bruité est démodulé avec la fonction \texttt{fmdemod}. Nous testons avec différents niveaux de SNR :
 
 \begin{lstlisting}[caption=Code 8 - Démodulation des signaux bruités]
-% Signal FM
-s_FM = fmmod(x, fc, fs, delta_f);
-
-% Ajout de bruit AWGN avec differents SNR
+% Test avec differents SNR
 SNR_values = [30, 20, 10, 5];  % SNR en dB
 
 for i = 1:length(SNR_values)
     SNR_dB = SNR_values(i);
     s_FM_noisy = awgn(s_FM, SNR_dB, 'measured');
-    
-    % Demodulation du signal bruite
     x2_noisy = fmdemod(s_FM_noisy, fc, fs, delta_f);
     
-    % Calcul de l'erreur et du SNR de sortie
+    % Calcul de l'erreur
     erreur = x - x2_noisy;
     MSE = mean(erreur.^2);
     SNR_out = 10*log10(mean(x.^2)/MSE);
@@ -890,29 +902,22 @@ end
     \label{fig:demod_bruitee}
 \end{figure}
 
-\textbf{Commentaire des résultats :}
+\textbf{Commentaire :}
+
+La Figure \ref{fig:demod_bruitee} montre le signal démodulé (rouge) comparé au signal original (bleu) pour différents SNR :
 
 \begin{itemize}
-    \item \textbf{SNR = 30 dB :} Le signal démodulé (en rouge pointillé) se superpose presque parfaitement au signal original (en bleu). Le bruit est quasiment imperceptible. La démodulation est excellente.
-    
-    \item \textbf{SNR = 20 dB :} Le signal démodulé présente un léger bruit mais reste très proche du signal original. La forme sinusoïdale est parfaitement reconnaissable. La qualité est bonne.
-    
-    \item \textbf{SNR = 10 dB :} Le bruit devient visible sur le signal démodulé. On observe des fluctuations autour de la sinusoïde idéale, mais la forme générale est encore bien préservée. La qualité est moyenne mais acceptable.
-    
-    \item \textbf{SNR = 5 dB :} Le signal démodulé est fortement bruité. Les fluctuations sont importantes et la forme sinusoïdale est difficile à distinguer. La qualité est mauvaise et le signal devient difficilement exploitable.
+    \item \textbf{SNR = 30 dB :} Démodulation excellente, signal quasi-parfait
+    \item \textbf{SNR = 20 dB :} Bruit léger, qualité bonne
+    \item \textbf{SNR = 10 dB :} Bruit visible, qualité moyenne mais acceptable
+    \item \textbf{SNR = 5 dB :} Signal fortement bruité, qualité mauvaise
 \end{itemize}
 
-\textbf{Observation importante :} On constate que le SNR de sortie est généralement meilleur que le SNR d'entrée pour les valeurs élevées de SNR. C'est l'un des avantages de la modulation FM : elle permet un gain de SNR grâce à l'indice de modulation $\beta$. Ce gain est donné approximativement par :
-
-\begin{equation}
-    \text{Gain FM} \approx 3\beta^2 \text{ (en puissance)} = 10\log_{10}(3\beta^2) \text{ dB}
-\end{equation}
-
-Avec $\beta = 5$, le gain théorique est d'environ $10\log_{10}(3 \times 25) \approx 18.75$ dB.
+On observe que la FM offre un gain de SNR : le SNR de sortie est meilleur que le SNR d'entrée grâce à l'indice de modulation $\beta$. Le gain théorique est $\approx 10\log_{10}(3\beta^2) \approx 18.75$ dB pour $\beta = 5$.
 
 \subsection{Question 3 : Seuil de démodulation correcte}
 
-Pour déterminer à partir de quelle valeur du SNR le signal n'est plus correctement démodulé, nous testons différentes valeurs de SNR et calculons l'erreur quadratique moyenne (MSE) entre le signal original et le signal démodulé.
+Pour déterminer à partir de quelle valeur du SNR le signal n'est plus correctement démodulé, nous testons différentes valeurs de SNR et calculons l'erreur quadratique moyenne (MSE) :
 
 \begin{lstlisting}[caption=Code 9 - Analyse du seuil de démodulation]
 % Test avec differentes valeurs de SNR
@@ -922,24 +927,13 @@ SNR_out_values = zeros(size(SNR_values));
 
 for i = 1:length(SNR_values)
     SNR_dB = SNR_values(i);
-    
-    % Ajout de bruit
     s_FM_noisy = awgn(s_FM, SNR_dB, 'measured');
-    
-    % Demodulation
     x2_noisy = fmdemod(s_FM_noisy, fc, fs, delta_f);
     
-    % Calcul de l'erreur quadratique moyenne
     erreur = x - x2_noisy;
     MSE_values(i) = mean(erreur.^2);
-    
-    % Calcul du SNR de sortie
     SNR_out_values(i) = 10*log10(mean(x.^2)/MSE_values(i));
 end
-
-% Determination du seuil (MSE < 0.1 comme critere)
-seuil_idx = find(MSE_values < 0.1, 1, 'first');
-SNR_seuil = SNR_values(seuil_idx);
 \end{lstlisting}
 
 \begin{figure}[H]
@@ -949,196 +943,48 @@ SNR_seuil = SNR_values(seuil_idx);
     \label{fig:seuil_demod}
 \end{figure}
 
-\textbf{Analyse détaillée :}
+\textbf{Résultat :}
 
-\begin{enumerate}
-    \item \textbf{Graphique MSE (haut) :}
-    \begin{itemize}
-        \item L'erreur quadratique moyenne décroît exponentiellement avec l'augmentation du SNR
-        \item Pour SNR $<$ 10 dB : MSE élevée, démodulation de mauvaise qualité
-        \item Pour SNR $\geq$ 12 dB : MSE faible ($<$ 0.1), démodulation acceptable
-        \item La ligne rouge verticale indique le seuil de démodulation correcte
-    \end{itemize}
-    
-    \item \textbf{Graphique SNR de sortie (bas) :}
-    \begin{itemize}
-        \item La courbe rouge montre le SNR de sortie en fonction du SNR d'entrée
-        \item La ligne noire en pointillés représente la référence (SNR sortie = SNR entrée)
-        \item Pour SNR d'entrée élevé : SNR de sortie $>$ SNR d'entrée (gain FM)
-        \item Pour SNR d'entrée faible : effet de seuil, dégradation rapide
-    \end{itemize}
-\end{enumerate}
-
-\textbf{Résultats :}
+D'après la Figure \ref{fig:seuil_demod}, le signal FM n'est plus correctement démodulé pour un SNR inférieur à \textbf{10-12 dB}. 
 
 \begin{itemize}
-    \item \textbf{Seuil de démodulation :} Le signal FM peut être correctement démodulé pour un SNR d'entrée supérieur à environ \textbf{10-12 dB}.
-    
-    \item \textbf{Effet de seuil FM :} En dessous de ce seuil, la qualité de démodulation se dégrade très rapidement. C'est une caractéristique fondamentale de la FM : elle fonctionne très bien au-dessus du seuil, mais devient inutilisable en dessous.
-    
-    \item \textbf{Gain FM :} Au-dessus du seuil, la FM offre un gain de SNR par rapport au signal d'entrée. Ce gain augmente avec l'indice de modulation $\beta$. Dans notre cas ($\beta = 5$), on observe un gain d'environ 15-18 dB pour les SNR élevés.
-    
-    \item \textbf{Avantage de la FM :} Pour un SNR suffisant, la modulation FM offre une meilleure résistance au bruit que la modulation AM, grâce à :
-    \begin{itemize}
-        \item L'effet de capture (le signal le plus fort domine)
-        \item La possibilité d'utiliser des indices de modulation élevés
-        \item L'amplitude constante (moins sensible aux variations d'amplitude du bruit)
-    \end{itemize}
+    \item Pour SNR $\geq$ 12 dB : MSE faible, démodulation correcte
+    \item Pour SNR $<$ 10 dB : MSE élevée, dégradation rapide (effet de seuil FM)
 \end{itemize}
 
-\textbf{Conclusion pratique :} Pour garantir une bonne qualité de démodulation FM, il est recommandé de maintenir un SNR d'entrée d'au moins 15 dB. C'est pourquoi les systèmes FM professionnels utilisent des amplificateurs de puissance suffisants et des antennes de réception de qualité pour assurer un SNR adéquat.
-
-
-
-\subsection{Question 5 : Cohérence avec l'espacement de sous-porteuses}
-
-Pour un signal stéréo, on se retrouve avec un signal multiplex occupant en bande de base une largeur $W = 53$ kHz. La question est de savoir si cela est cohérent avec un espacement de sous-porteuses de 200 kHz.
-
-\textbf{Analyse :}
-
-\begin{itemize}
-    \item Signal multiplex stéréo FM : $W = 53$ kHz
-    \item Espacement entre sous-porteuses : $\Delta f_{spacing} = 200$ kHz
-    \item Déviation maximale en FM stéréo : $\Delta f = 75$ kHz (norme FM)
-\end{itemize}
-
-Selon la règle de Carson, la bande passante nécessaire pour transmettre le signal FM stéréo est :
-
-\begin{equation}
-    BW_{Carson} = 2(\Delta f + W) = 2(75 + 53) = 256 \text{ kHz}
-\end{equation}
-
-\textbf{Conclusion :}
-
-Avec un espacement de 200 kHz entre les sous-porteuses, il y aurait un chevauchement spectral entre les canaux adjacents, car la bande passante nécessaire (256 kHz) est supérieure à l'espacement (200 kHz).
-
-\textbf{Réponse :} Non, ce n'est \textbf{pas cohérent}. Pour éviter les interférences entre canaux adjacents, l'espacement devrait être au minimum égal à la bande de Carson, soit environ 260 kHz. En pratique, la norme FM utilise un espacement de 200 kHz, mais avec des techniques de filtrage et de limitation de bande pour réduire les interférences.
+La FM présente un effet de seuil caractéristique : au-dessus du seuil, la qualité est excellente avec un gain de 15-18 dB ; en dessous, la qualité se dégrade rapidement.
 
 \newpage
 \section{Conclusion}
 
-Ce TP nous a permis d'étudier en détail la modulation et la démodulation FM, tant sur le plan théorique que pratique avec Matlab.
-
-\subsection{Points clés}
-
-\begin{enumerate}
-    \item \textbf{Modulation FM :} La fréquence instantanée varie proportionnellement au signal modulant, tandis que l'amplitude reste constante.
-    
-    \item \textbf{Indice de modulation :} Le paramètre $\beta = \Delta f / f_x$ détermine le type de modulation (NFM ou WFM) et l'occupation spectrale.
-    
-    \item \textbf{Règle de Carson :} La bande passante nécessaire est $BW = 2(\Delta f + f_x)$, ce qui montre que la FM nécessite plus de bande passante que l'AM.
-    
-    \item \textbf{Démodulation :} La fonction \texttt{fmdemod} permet de récupérer fidèlement le signal modulant à partir du signal FM.
-    
-    \item \textbf{Sensibilité au bruit :} La FM présente un effet de seuil : au-dessus d'un certain SNR (environ 10-12 dB), la qualité est excellente ; en dessous, elle se dégrade rapidement.
-    
-    \item \textbf{Erreur de fréquence :} Une erreur de synchronisation entre émetteur et récepteur introduit une composante continue dans le signal démodulé.
-\end{enumerate}
-
-\subsection{Avantages de la modulation FM}
-
-\begin{itemize}
-    \item Meilleure résistance au bruit que l'AM (pour SNR suffisant)
-    \item Amplitude constante (moins sensible aux non-linéarités)
-    \item Possibilité d'améliorer le SNR en augmentant $\beta$ (au prix d'une bande passante plus large)
-    \item Effet de capture : le signal le plus fort domine
-\end{itemize}
-
-\subsection{Inconvénients de la modulation FM}
-
-\begin{itemize}
-    \item Occupation spectrale importante (surtout en WFM)
-    \item Complexité accrue des circuits de modulation/démodulation
-    \item Effet de seuil : performances médiocres pour SNR faible
-    \item Nécessité d'une synchronisation précise en fréquence
-\end{itemize}
-
-\newpage
-\section{Conclusion}
-
-Ce travail pratique nous a permis d'explorer en profondeur la modulation et la démodulation de fréquence (FM), tant sur le plan théorique que pratique. À travers des simulations sous Matlab, nous avons pu visualiser et analyser les caractéristiques fondamentales des signaux modulés en FM.
+Ce travail pratique nous a permis d'étudier en profondeur la modulation et la démodulation de fréquence (FM), tant sur le plan théorique que pratique avec Matlab.
 
 \subsection{Synthèse des résultats}
 
-\subsubsection{Modulation FM}
+Nous avons démontré que la modulation FM se caractérise par une variation de la fréquence instantanée proportionnelle au signal modulant, avec une amplitude constante. L'indice de modulation $\beta = \Delta f / f_x$ est le paramètre clé qui détermine le type de modulation (NFM ou WFM) et l'occupation spectrale. La règle de Carson ($BW = 2(\Delta f + f_x)$) permet d'estimer la bande passante nécessaire.
 
-Nous avons démontré que la modulation FM se caractérise par une variation de la fréquence instantanée proportionnelle au signal modulant, tout en maintenant une amplitude constante. L'indice de modulation $\beta = \Delta f / f_x$ est le paramètre clé qui détermine :
+L'étude de la démodulation en présence de bruit AWGN a révélé un effet de seuil caractéristique autour de 10-12 dB. Au-dessus de ce seuil, la FM offre un gain de SNR d'environ 15-18 dB pour $\beta = 5$. En dessous, la qualité se dégrade rapidement.
 
+\subsection{Avantages et inconvénients}
+
+\textbf{Avantages :}
 \begin{itemize}
-    \item Le type de modulation : NFM ($\beta < 0.5$) ou WFM ($\beta > 1$)
-    \item L'occupation spectrale : plus $\beta$ est élevé, plus la bande passante nécessaire est importante
-    \item La qualité de transmission : un $\beta$ élevé améliore la résistance au bruit
+    \item Meilleure résistance au bruit que l'AM (pour SNR suffisant)
+    \item Amplitude constante (moins sensible aux non-linéarités)
+    \item Gain FM proportionnel à $\beta^2$
+    \item Effet de capture
 \end{itemize}
 
-La règle de Carson ($BW = 2(\Delta f + f_x)$) s'est révélée être une excellente approximation pour estimer la bande passante nécessaire, contenant 98\% de la puissance du signal.
-
-\subsubsection{Démodulation et bruit}
-
-L'étude de la démodulation en présence de bruit AWGN a mis en évidence plusieurs points importants :
-
-\begin{enumerate}
-    \item \textbf{Effet de seuil :} La FM présente un seuil de démodulation autour de 10-12 dB. Au-dessus de ce seuil, la qualité de démodulation est excellente ; en dessous, elle se dégrade rapidement.
-    
-    \item \textbf{Gain FM :} Pour un SNR d'entrée suffisant, la FM offre un gain de SNR en sortie proportionnel à $\beta^2$. Dans notre cas ($\beta = 5$), nous avons observé un gain d'environ 15-18 dB.
-    
-    \item \textbf{Seuil pratique :} Pour garantir une bonne qualité de démodulation, il est recommandé de maintenir un SNR d'entrée d'au moins 15 dB.
-\end{enumerate}
-
-\subsubsection{Application au signal stéréo}
-
-L'analyse de la question stéréo a montré que pour un signal multiplex de largeur $W = 53$ kHz et une déviation $\Delta f = 75$ kHz (norme FM), la bande passante nécessaire est de 256 kHz. Avec un espacement de canaux de 200 kHz, il existe un risque d'interférences entre canaux adjacents, ce qui nécessite l'utilisation de techniques de filtrage et de limitation de bande.
-
-\subsection{Avantages et inconvénients de la FM}
-
-\subsubsection{Avantages}
-
+\textbf{Inconvénients :}
 \begin{itemize}
-    \item \textbf{Résistance au bruit :} Meilleure que l'AM pour un SNR suffisant
-    \item \textbf{Amplitude constante :} Moins sensible aux non-linéarités des amplificateurs
-    \item \textbf{Effet de capture :} Le signal le plus fort domine, réduisant les interférences
-    \item \textbf{Gain FM :} Possibilité d'améliorer le SNR en augmentant $\beta$
-    \item \textbf{Qualité audio :} Excellente pour la radiodiffusion (WFM)
-\end{itemize}
-
-\subsubsection{Inconvénients}
-
-\begin{itemize}
-    \item \textbf{Occupation spectrale :} Nécessite plus de bande passante que l'AM
-    \item \textbf{Complexité :} Circuits de modulation/démodulation plus complexes
-    \item \textbf{Effet de seuil :} Performances médiocres pour SNR faible
-    \item \textbf{Synchronisation :} Nécessite une synchronisation précise en fréquence
-\end{itemize}
-
-\subsection{Applications pratiques}
-
-Les résultats obtenus dans ce TP trouvent des applications directes dans de nombreux domaines :
-
-\begin{itemize}
-    \item \textbf{Radiodiffusion FM :} Bande 88-108 MHz, $\beta \approx 5$, excellente qualité audio
-    \item \textbf{Communications professionnelles :} NFM pour économiser la bande passante
-    \item \textbf{Télévision analogique :} Transmission du son en FM
-    \item \textbf{Communications spatiales :} Résistance au bruit pour les liaisons longue distance
-    \item \textbf{Systèmes de télémétrie :} Transmission de données dans des environnements bruités
-\end{itemize}
-
-\subsection{Perspectives}
-
-Ce travail pratique a permis d'acquérir une compréhension solide de la modulation FM. Pour aller plus loin, il serait intéressant d'étudier :
-
-\begin{itemize}
-    \item Les techniques de pré-accentuation et de dé-accentuation pour améliorer le SNR
-    \item Les boucles à verrouillage de phase (PLL) pour la démodulation
-    \item La modulation FM numérique (FSK, GFSK)
-    \item Les systèmes FM stéréo avec multiplexage
-    \item La comparaison avec d'autres techniques de modulation (PM, QAM)
+    \item Occupation spectrale importante
+    \item Complexité des circuits
+    \item Effet de seuil pour SNR faible
+    \item Nécessité d'une synchronisation précise
 \end{itemize}
 
 \subsection{Conclusion générale}
 
-La modulation de fréquence reste une technique de modulation fondamentale et largement utilisée dans les télécommunications modernes. Malgré l'avènement des techniques numériques, la FM conserve des avantages significatifs en termes de simplicité, de robustesse et de qualité de transmission. Ce TP nous a permis de comprendre pourquoi la FM est toujours le standard pour la radiodiffusion audio et de nombreuses autres applications.
-
-Les simulations Matlab ont confirmé les prédictions théoriques et ont permis de visualiser concrètement les phénomènes étudiés. L'analyse du seuil de démodulation et du gain FM a mis en évidence le compromis fondamental de la FM : échanger de la bande passante contre de la qualité.
-
-En conclusion, ce travail pratique a atteint ses objectifs en nous permettant de maîtriser les concepts théoriques et pratiques de la modulation FM, et de comprendre son importance dans les systèmes de télécommunications modernes.
+La modulation FM reste une technique fondamentale dans les télécommunications modernes. Les simulations Matlab ont confirmé les prédictions théoriques et ont permis de visualiser les phénomènes étudiés. Ce TP a atteint ses objectifs en nous permettant de maîtriser les concepts théoriques et pratiques de la modulation FM, et de comprendre son importance dans les systèmes de communication actuels.
 
 \end{document}
