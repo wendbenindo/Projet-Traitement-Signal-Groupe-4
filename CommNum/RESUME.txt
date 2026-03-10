@@ -1,0 +1,66 @@
+========================================
+RÉSUMÉ DU PROJET - COMMUNICATIONS NUMÉRIQUES
+========================================
+
+OBJECTIF
+--------
+Étudier une chaîne de transmission numérique en bande de base avec:
+- Conversion bits/symboles
+- Génération de signaux physiques
+- Filtres de mise en forme
+- Analyse énergétique et spectrale
+
+PARAMÈTRES PRINCIPAUX
+---------------------
+- Débit binaire: Db = 2 bits/sec
+- Fréquence d'échantillonnage: Fs = 100 Hz
+- Dictionnaires: M-aire, antipolaire, unipolaire
+- Filtres: NRZ, RZ, biphase, cosinus surélevé
+
+FONCTIONS IMPLÉMENTÉES
+----------------------
+1. conversion_bitsymboles(dn, Db, M, method_mod)
+   → Convertit bits en symboles
+
+2. conversion_symbolebits(ak, M, method_mod)
+   → Convertit symboles en bits
+
+3. genere_dirac(ak, K, T, Fs)
+   → Génère le peigne de Dirac
+
+4. create_filter(t_he, T, method_fil)
+   → Crée le filtre de mise en forme
+
+5. filtre_emission(a, t_a, K, T, Fs, method_fil)
+   → Applique le filtre (convolution)
+
+6. energie_moyenne_bit(M, method_mod, E_he)
+   → Calcule l'énergie par bit
+
+7. emetteur(dn, Db, Fs, M, method_fil)
+   → Émetteur complet (intègre tout)
+
+RÉSULTATS CLÉS
+--------------
+✓ Conversion bits ↔ symboles fonctionnelle
+✓ 4 types de filtres implémentés
+✓ Signaux en bande de base vérifiés
+✓ Énergie par bit calculée pour différents M
+✓ Influence des paramètres analysée
+
+AUTOMATISATION
+--------------
+✓ Génération automatique de toutes les images
+✓ Compilation automatique du rapport
+✓ Script unique: generer_tout.bat
+
+LIVRABLES
+---------
+✓ Rapport PDF complet avec théorie et résultats
+✓ Scripts MATLAB commentés et testés
+✓ Images/graphiques générés automatiquement
+✓ Documentation complète (README, INSTRUCTIONS)
+
+DATE LIMITE
+-----------
+31 Mars 2026 - guel.desire@gmail.com

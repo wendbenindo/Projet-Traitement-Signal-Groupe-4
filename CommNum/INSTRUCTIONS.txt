@@ -1,0 +1,132 @@
+========================================
+  PROJET COMMUNICATIONS NUMÉRIQUES
+  Transmission en Bande de Base
+========================================
+
+INFORMATIONS GÉNÉRALES
+----------------------
+Professeur: Dr KOURAOGO
+Date limite: 31 Mars 2026
+Email: guel.desire@gmail.com
+
+Groupe:
+- KABORE Wend-Benindo François
+- SISSAO Sarata
+- YÉ ELISÉ NIKIESSAN
+
+
+STRUCTURE DU PROJET
+-------------------
+CommNum/
+├── codes/              Scripts MATLAB (Q1 à Q10)
+├── images/             Images générées automatiquement
+├── rapport/            Rapport LaTeX
+├── ressources/         Logos (à copier depuis ../ressources/)
+├── generer_tout.bat    Génération complète automatique
+└── generer_images.bat  Génération des images uniquement
+
+
+UTILISATION
+-----------
+
+1. GÉNÉRATION AUTOMATIQUE COMPLÈTE
+   Double-cliquer sur: generer_tout.bat
+   
+   Ce script va:
+   - Exécuter tous les scripts MATLAB
+   - Générer toutes les images dans images/
+   - Compiler le rapport PDF
+   - Ouvrir le PDF automatiquement
+
+2. GÉNÉRATION MANUELLE DES IMAGES
+   Double-cliquer sur: generer_images.bat
+   
+   Ou dans MATLAB:
+   >> cd codes
+   >> generer_toutes_images
+
+3. COMPILATION DU RAPPORT UNIQUEMENT
+   cd rapport
+   compiler_rapport.bat
+
+4. TEST D'UNE QUESTION SPÉCIFIQUE
+   Dans MATLAB:
+   >> cd codes
+   >> test_Q1_Q2    % Tester Q1 et Q2
+   >> test_Q3       % Tester Q3
+   >> test_Q4_Q5    % Tester Q4 et Q5
+   >> test_Q6       % Tester Q6
+   >> test_Q7_emetteur  % Tester Q7
+
+
+QUESTIONS TRAITÉES
+------------------
+Q1: Conversion bits → symboles
+Q2: Conversion symboles → bits
+Q3: Génération du peigne de Dirac
+Q4: Création des filtres de mise en forme (NRZ, RZ, biphase, RCS)
+Q5: Convolution pour obtenir le signal émis
+Q6: Calcul de l'énergie moyenne par bit
+Q7: Émetteur complet
+Q8: Analyse spectrale (bande de base)
+Q9: Influence du dictionnaire sur la largeur de bande
+Q10: Influence de M sur la largeur de bande
+
+
+FICHIERS GÉNÉRÉS
+----------------
+Images:
+- Q3_peigne_dirac.png
+- Q4_Q5_filtres.png
+- Q7_emetteur_complet.png
+- Q7_comparaison_filtres.png
+- (+ autres images pour Q8-Q10)
+
+Rapport:
+- Rapport_CommNum.pdf
+
+
+DÉPENDANCES
+-----------
+- MATLAB (avec Signal Processing Toolbox recommandée)
+- LaTeX (MiKTeX ou TeX Live)
+- Logos dans ../ressources/:
+  * universite.png
+  * ufrsea.png
+
+
+SOUMISSION
+----------
+1. Vérifier que toutes les images sont générées
+2. Vérifier que le rapport PDF est correct
+3. Créer une archive: nom_du_groupe.zip contenant:
+   - Rapport_CommNum.pdf
+   - Tous les scripts MATLAB (.m)
+   - Les images générées
+
+4. Envoyer à: guel.desire@gmail.com
+   Avant le: 31 Mars 2026
+
+
+TROUBLESHOOTING
+---------------
+Problème: MATLAB ne trouve pas les fonctions
+Solution: Vérifier que vous êtes dans le dossier codes/
+
+Problème: Images non générées
+Solution: Vérifier que le dossier images/ existe
+          Exécuter: mkdir ../images dans MATLAB
+
+Problème: Erreur de compilation LaTeX
+Solution: Vérifier que les chemins vers les images sont corrects
+          Vérifier que les logos sont dans ../../ressources/
+
+Problème: "File not found" pour les logos
+Solution: Copier les logos depuis le dossier principal:
+          copy ..\ressources\*.png ressources\
+
+
+CONTACT
+-------
+Pour toute question sur le projet:
+Dr KOURAOGO - guel.desire@gmail.com

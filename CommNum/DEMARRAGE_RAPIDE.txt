@@ -1,0 +1,115 @@
+========================================
+  DÉMARRAGE RAPIDE
+  Projet Communications Numériques
+========================================
+
+PREMIÈRE UTILISATION
+--------------------
+
+1. COPIER LES LOGOS
+   Les logos sont nécessaires pour le rapport.
+   
+   Depuis le dossier CommNum/, exécuter:
+   
+   Windows:
+   > mkdir ressources
+   > copy ..\ressources\universite.png ressources\
+   > copy ..\ressources\ufrsea.png ressources\
+
+   Ou manuellement:
+   - Créer le dossier: CommNum/ressources/
+   - Copier universite.png depuis ressources/
+   - Copier ufrsea.png depuis ressources/
+
+2. GÉNÉRER TOUT AUTOMATIQUEMENT
+   Double-cliquer sur: generer_tout.bat
+   
+   Attendre quelques minutes...
+   Le rapport PDF s'ouvrira automatiquement!
+
+3. VÉRIFIER LES RÉSULTATS
+   ✓ Dossier images/ contient les graphiques
+   ✓ Fichier rapport/Rapport_CommNum.pdf existe
+
+
+UTILISATION QUOTIDIENNE
+------------------------
+
+OPTION A: Tout régénérer
+> generer_tout.bat
+
+OPTION B: Images uniquement
+> generer_images.bat
+
+OPTION C: Rapport uniquement
+> cd rapport
+> compiler_rapport.bat
+
+
+TESTER UNE FONCTION
+--------------------
+
+Dans MATLAB:
+>> cd codes
+>> test_Q1_Q2        % Tester conversion bits/symboles
+>> test_Q3           % Tester peigne de Dirac
+>> test_Q4_Q5        % Tester filtres
+>> test_Q6           % Tester énergie
+>> test_Q7_emetteur  % Tester émetteur complet
+
+
+STRUCTURE DES FICHIERS
+-----------------------
+
+codes/
+  Q1_*.m à Q7_*.m    → Fonctions principales
+  test_*.m           → Scripts de test
+  generer_*.m        → Génération automatique
+
+images/
+  *.png              → Images générées
+
+rapport/
+  Rapport_CommNum.tex → Source LaTeX
+  Rapport_CommNum.pdf → Rapport final
+
+
+VÉRIFICATION AVANT SOUMISSION
+------------------------------
+
+□ Toutes les images sont dans images/
+□ Le rapport PDF est généré correctement
+□ Les graphiques apparaissent dans le PDF
+□ Les noms du groupe sont corrects
+□ La date est correcte (2025-2026)
+
+Créer l'archive:
+> nom_du_groupe.zip
+  ├── Rapport_CommNum.pdf
+  ├── codes/*.m (tous les fichiers .m)
+  └── images/*.png (toutes les images)
+
+Envoyer à: guel.desire@gmail.com
+Avant le: 31 Mars 2026
+
+
+AIDE RAPIDE
+-----------
+
+Problème: "File not found" pour les logos
+Solution: Copier les logos (voir étape 1)
+
+Problème: MATLAB ne trouve pas les fonctions
+Solution: cd codes dans MATLAB
+
+Problème: Erreur LaTeX
+Solution: Vérifier que les images existent
+
+Problème: Images vides
+Solution: Relancer generer_images.bat
+
+
+CONTACT
+-------
+Dr KOURAOGO
+guel.desire@gmail.com

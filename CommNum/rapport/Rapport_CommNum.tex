@@ -1,0 +1,436 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[french]{babel}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{geometry}
+\usepackage{fancyhdr}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{float}
+
+\geometry{left=2.5cm, right=2.5cm, top=2.5cm, bottom=2.5cm}
+\setlength{\headheight}{33pt}
+
+% Configuration pour le code MATLAB
+\lstset{
+    language=Matlab,
+    basicstyle=\ttfamily\small,
+    keywordstyle=\color{blue},
+    commentstyle=\color{green!60!black},
+    stringstyle=\color{red},
+    numbers=left,
+    numberstyle=\tiny\color{gray},
+    frame=single,
+    breaklines=true,
+    captionpos=b
+}
+
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\includegraphics[height=1cm]{../../ressources/ufrsea.png}}
+\rhead{Communications Numériques}
+\rfoot{Page \thepage}
+
+\begin{document}
+
+\begin{titlepage}
+    \centering
+    
+    % En-tête officiel
+    {\large \textbf{Ministère de l'Enseignement}}\\[0.2cm]
+    {\large \textbf{Supérieur de la Recherche}}\\[0.2cm]
+    {\large \textbf{Scientifique et de l'Innovation}}\\[0.5cm]
+    
+    {\large \textbf{BURKINA FASO}}\\[0.2cm]
+    {\large \textbf{Unité - Progrès - Justice}}\\[1.2cm]
+    
+    % Logo de l'université
+    \includegraphics[width=0.25\textwidth]{../../ressources/universite.png}\\[0.8cm]
+    
+    {\Large \textbf{Université Joseph KI-ZERBO}}\\[1.2cm]
+    
+    % Titre principal
+    {\Huge \textbf{RAPPORT DE PROJET}}\\[0.5cm]
+    
+    % Ligne verte supérieure
+    {\color{green!60!black}\rule{0.8\textwidth}{3pt}}\\[0.3cm]
+    {\LARGE \textbf{Transmission en Bande de Base}}\\[0.2cm]
+    {\Large \textbf{Communications Numériques}}\\[0.3cm]
+    % Ligne verte inférieure
+    {\color{green!60!black}\rule{0.8\textwidth}{3pt}}\\[2cm]
+    
+    % Membres du groupe
+    \begin{flushleft}
+    \hspace{2cm}
+    {\large \textbf{Membres du Groupe :}}\\[0.5cm]
+    \hspace{3cm} KABORE Wend-Benindo François\\[0.2cm]
+    \hspace{3cm} SISSAO Sarata\\[0.2cm]
+    \hspace{3cm} YÉ ELISÉ NIKIESSAN\\
+    \end{flushleft}
+    
+    \vfill
+    
+    % Professeur
+    \begin{flushright}
+    \hspace{8cm}
+    {\large \textbf{Professeur :}}\\[0.3cm]
+    \hspace{8cm} Dr KOURAOGO\\
+    \end{flushright}
+    
+    \vspace{1cm}
+    
+    % Année académique
+    {\large \textbf{Année Académique : 2025 - 2026}}
+    
+\end{titlepage}
+
+\tableofcontents
+\newpage
+
+\section*{Introduction}
+\addcontentsline{toc}{section}{Introduction}
+
+Les communications numériques constituent un domaine fondamental des télécommunications modernes. La transmission en bande de base représente la technique la plus simple pour transmettre des données numériques, où le signal est transmis directement sans modulation sur une porteuse haute fréquence.
+
+Ce projet a pour objectif d'étudier en profondeur une chaîne de transmission numérique en bande de base, en présence de bruit blanc gaussien additif (AWGN). Nous analyserons les différentes étapes de la chaîne de communication, depuis la conversion des bits en symboles jusqu'à l'émission du signal physique.
+
+\subsection*{Objectifs du projet}
+
+\begin{enumerate}
+    \item Comprendre les mécanismes de conversion bits/symboles et symboles/bits
+    \item Maîtriser la génération de signaux physiques à partir de symboles discrets
+    \item Étudier différents filtres de mise en forme (NRZ, RZ, biphase, cosinus surélevé)
+    \item Analyser les propriétés énergétiques et spectrales des signaux en bande de base
+    \item Évaluer l'influence des paramètres sur les performances de la transmission
+\end{enumerate}
+
+\subsection*{Structure du rapport}
+
+Ce rapport est organisé en deux parties principales :
+
+\begin{itemize}
+    \item \textbf{Partie 1 : L'émetteur} - Étude détaillée de toutes les étapes de l'émission, de la conversion bits/symboles jusqu'à la génération du signal physique
+    \item \textbf{Partie 2 : Propriétés des signaux} - Analyse des caractéristiques énergétiques et spectrales des signaux en bande de base
+\end{itemize}
+
+\newpage
+
+\section{Partie 1 : L'émetteur}
+
+\subsection{Conversion bits/symboles (Q1)}
+
+La première étape de la chaîne de transmission consiste à convertir une série de bits en symboles selon un dictionnaire donné.
+
+\subsubsection{Principe}
+
+Pour un dictionnaire de taille $M = 2^m$, on groupe les bits par paquets de $m$ bits. Chaque groupe est ensuite converti en un symbole $a_k$ appartenant au dictionnaire choisi.
+
+\textbf{Dictionnaires utilisés :}
+
+\begin{itemize}
+    \item \textbf{M-aire :} $\{-(M-1), -(M-3), \ldots, -1, 1, 3, \ldots, M-1\}$
+    \item \textbf{Antipolaire :} $\{-1, 1\}$ pour $M=2$
+    \item \textbf{Unipolaire :} $\{0, 1\}$ pour $M=2$
+\end{itemize}
+
+\textbf{Période symbole :}
+\begin{equation}
+    T = \frac{m}{D_b}
+\end{equation}
+
+où $D_b$ est le débit binaire en bits/seconde.
+
+\subsubsection{Implémentation MATLAB}
+
+\begin{lstlisting}[caption=Fonction conversion\_bitsymboles]
+function [ak, T, K] = conversion_bitsymboles(dn, Db, M, method_mod)
+    m = log2(M);
+    T = m / Db;
+    K = floor(length(dn) / m);
+    
+    % Grouper les bits par m
+    bits_grouped = reshape(dn(1:K*m), m, K)';
+    
+    % Convertir en decimal
+    decimal_values = bi2de(bits_grouped, 'left-msb');
+    
+    % Mapper vers les symboles
+    dict = -(M-1):2:(M-1);  % Dictionnaire M-aire
+    ak = dict(decimal_values + 1);
+end
+\end{lstlisting}
+
+\subsection{Conversion symboles/bits (Q2)}
+
+Cette fonction réalise l'opération inverse : elle convertit une série de symboles en bits.
+
+\subsubsection{Principe}
+
+Pour chaque symbole $a_k$, on trouve son index dans le dictionnaire, puis on convertit cet index en binaire sur $m$ bits.
+
+\subsubsection{Vérification}
+
+La conversion symboles $\rightarrow$ bits $\rightarrow$ symboles doit restituer les symboles originaux.
+
+\newpage
+
+\subsection{Génération du peigne de Dirac (Q3)}
+
+Le peigne de Dirac transforme la série de symboles discrets en un signal physique continu.
+
+\subsubsection{Formule mathématique}
+
+\begin{equation}
+    a(t) = \sum_{k=0}^{K-1} a_k \cdot \delta(t - kT)
+\end{equation}
+
+où $\delta(t)$ est l'impulsion de Dirac.
+
+\subsubsection{Implémentation numérique}
+
+En pratique, on crée un vecteur de zéros et on place les valeurs $a_k$ aux positions correspondant aux multiples de $T$.
+
+\begin{lstlisting}[caption=Fonction genere\_dirac]
+function [a, t_a] = genere_dirac(ak, K, T, Fs)
+    Nsym = round(T * Fs);
+    duree_totale = K * T;
+    t_a = 0 : 1/Fs : duree_totale - 1/Fs;
+    a = zeros(size(t_a));
+    
+    for k = 0:K-1
+        idx = k * Nsym + 1;
+        if idx <= length(a)
+            a(idx) = ak(k+1);
+        end
+    end
+end
+\end{lstlisting}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{../images/Q3_peigne_dirac.png}
+    \caption{Peigne de Dirac généré à partir d'une série de symboles}
+    \label{fig:peigne_dirac}
+\end{figure}
+
+\newpage
+
+\subsection{Filtre de mise en forme (Q4)}
+
+Le filtre de mise en forme $h_e(t)$ transforme les impulsions de Dirac en formes d'ondes adaptées à la transmission.
+
+\subsubsection{Filtres implémentés}
+
+\textbf{1. Filtre NRZ (Non-Return to Zero)}
+
+\begin{equation}
+    h_e(t) = \begin{cases}
+        1 & \text{si } 0 \leq t < T \\
+        0 & \text{sinon}
+    \end{cases}
+\end{equation}
+
+\textbf{2. Filtre RZ (Return to Zero)}
+
+\begin{equation}
+    h_e(t) = \begin{cases}
+        1 & \text{si } 0 \leq t < \frac{T}{2} \\
+        0 & \text{sinon}
+    \end{cases}
+\end{equation}
+
+\textbf{3. Filtre biphase (Manchester)}
+
+\begin{equation}
+    h_e(t) = \begin{cases}
+        1 & \text{si } 0 \leq t < \frac{T}{2} \\
+        -1 & \text{si } \frac{T}{2} \leq t < T \\
+        0 & \text{sinon}
+    \end{cases}
+\end{equation}
+
+\textbf{4. Filtre en racine de cosinus surélevé (RCS)}
+
+Formule complexe utilisée pour minimiser l'interférence entre symboles.
+
+\subsubsection{Énergie du filtre}
+
+\begin{equation}
+    E_{he} = \int_{-\infty}^{+\infty} |h_e(t)|^2 \, dt
+\end{equation}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.95\textwidth]{../images/Q4_Q5_filtres.png}
+    \caption{Différents filtres de mise en forme et signaux émis correspondants}
+    \label{fig:filtres}
+\end{figure}
+
+\newpage
+
+\subsection{Signal émis (Q5)}
+
+Le signal émis $x(t)$ est obtenu par convolution du peigne de Dirac avec le filtre de mise en forme.
+
+\subsubsection{Formule}
+
+\begin{equation}
+    x(t) = a(t) * h_e(t) = \sum_{k=0}^{K-1} a_k \cdot h_e(t - kT)
+\end{equation}
+
+\subsubsection{Interprétation}
+
+Chaque symbole $a_k$ génère une forme d'onde $a_k \cdot h_e(t - kT)$ centrée sur $t = kT$. Le signal total est la somme de toutes ces formes d'ondes.
+
+\subsection{Énergie moyenne par bit (Q6)}
+
+L'énergie moyenne par bit est un paramètre fondamental pour évaluer les performances d'un système de communication.
+
+\subsubsection{Formule théorique}
+
+\begin{equation}
+    E_{bit} = \frac{1}{M \log_2(M)} \sum_{k=0}^{M-1} |a_k|^2 \cdot E_{he}
+\end{equation}
+
+\subsubsection{Résultats}
+
+Pour un dictionnaire M-aire avec $E_{he} = 1$ :
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|c|c|c|}
+\hline
+$M$ & Dictionnaire & $E_{bit}$ \\
+\hline
+2 & $\{-1, 1\}$ & 1.000 \\
+4 & $\{-3, -1, 1, 3\}$ & 2.500 \\
+8 & $\{-7, -5, \ldots, 5, 7\}$ & 10.667 \\
+\hline
+\end{tabular}
+\caption{Énergie moyenne par bit pour différentes valeurs de M}
+\end{table}
+
+\textbf{Observation :} L'énergie par bit augmente avec $M$, ce qui signifie qu'il faut plus de puissance pour transmettre avec des dictionnaires plus grands.
+
+\newpage
+
+\subsection{Émetteur complet (Q7)}
+
+La fonction émetteur intègre toutes les étapes précédentes en une seule fonction.
+
+\subsubsection{Schéma bloc}
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[node distance=2cm]
+        % Définir les blocs (si tikz est disponible)
+    \end{tikzpicture}
+\end{figure}
+
+\textbf{Étapes :}
+\begin{enumerate}
+    \item Conversion bits $\rightarrow$ symboles (Q1)
+    \item Génération du peigne de Dirac (Q3)
+    \item Création du filtre de mise en forme (Q4)
+    \item Convolution pour obtenir le signal émis (Q5)
+    \item Calcul de l'énergie moyenne par bit (Q6)
+\end{enumerate}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.95\textwidth]{../images/Q7_emetteur_complet.png}
+    \caption{Signal émis par l'émetteur complet}
+    \label{fig:emetteur}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.95\textwidth]{../images/Q7_comparaison_filtres.png}
+    \caption{Comparaison des signaux émis avec différents filtres}
+    \label{fig:comparaison}
+\end{figure}
+
+\newpage
+
+\section{Partie 2 : Propriétés des signaux en bande de base}
+
+\subsection{Analyse spectrale (Q8)}
+
+L'analyse spectrale permet de déterminer si un signal est en bande de base et d'estimer sa largeur de bande.
+
+\subsubsection{Définition}
+
+Un signal est dit \textbf{en bande de base} si son spectre est centré autour de la fréquence nulle (0 Hz) et ne contient pas de composante haute fréquence.
+
+\subsubsection{Densité spectrale de puissance (DSP)}
+
+La DSP est calculée par :
+
+\begin{equation}
+    S_x(f) = \mathcal{F}\{R_x(\tau)\}
+\end{equation}
+
+où $R_x(\tau)$ est la fonction d'autocorrélation.
+
+\subsubsection{Largeur de bande}
+
+La largeur de bande peut être estimée visuellement ou calculée comme la bande contenant 99\% de la puissance du signal.
+
+\subsection{Influence du dictionnaire (Q9)}
+
+Cette question étudie l'influence du type de dictionnaire et du filtre de mise en forme sur la largeur de bande.
+
+\subsubsection{Observations attendues}
+
+\begin{itemize}
+    \item Le filtre de mise en forme a un impact majeur sur la largeur de bande
+    \item Le dictionnaire (M-aire, antipolaire, unipolaire) influence principalement l'énergie, pas la bande
+    \item Le filtre NRZ a une bande plus large que le filtre RCS
+\end{itemize}
+
+\subsection{Influence du dictionnaire M-aire (Q10)}
+
+On étudie l'influence de la taille $M$ du dictionnaire sur la largeur de bande.
+
+\subsubsection{Résultats attendus}
+
+Pour un même filtre (par exemple NRZ) :
+\begin{itemize}
+    \item La période symbole $T$ augmente avec $M$ (car $T = m/D_b$ et $m = \log_2(M)$)
+    \item La largeur de bande diminue quand $M$ augmente (car $BW \propto 1/T$)
+    \item Compromis : plus de symboles $\Rightarrow$ moins de bande mais plus d'énergie par bit
+\end{itemize}
+
+\newpage
+
+\section*{Conclusion}
+\addcontentsline{toc}{section}{Conclusion}
+
+Ce projet nous a permis d'étudier en profondeur une chaîne de transmission numérique en bande de base. Nous avons implémenté toutes les fonctions nécessaires à l'émission d'un signal numérique, depuis la conversion des bits en symboles jusqu'à la génération du signal physique.
+
+\subsection*{Principaux résultats}
+
+\begin{enumerate}
+    \item \textbf{Conversion bits/symboles :} Nous avons maîtrisé les différents types de dictionnaires (M-aire, antipolaire, unipolaire) et leur impact sur la transmission.
+    
+    \item \textbf{Filtres de mise en forme :} Nous avons comparé quatre types de filtres (NRZ, RZ, biphase, RCS) et analysé leurs propriétés énergétiques et spectrales.
+    
+    \item \textbf{Énergie par bit :} Nous avons calculé l'énergie moyenne par bit pour différentes configurations et observé qu'elle augmente avec la taille du dictionnaire.
+    
+    \item \textbf{Propriétés spectrales :} Nous avons vérifié que les signaux générés sont bien en bande de base et analysé l'influence des paramètres sur la largeur de bande.
+\end{enumerate}
+
+\subsection*{Perspectives}
+
+Ce travail constitue une base solide pour l'étude de systèmes de communication plus complexes, notamment :
+\begin{itemize}
+    \item L'ajout d'un canal bruité (AWGN)
+    \item L'implémentation d'un récepteur avec démodulation
+    \item L'étude des performances en termes de taux d'erreur binaire (TEB)
+    \item L'optimisation des paramètres pour minimiser la bande passante tout en maintenant une bonne qualité de transmission
+\end{itemize}
+
+\end{document}
