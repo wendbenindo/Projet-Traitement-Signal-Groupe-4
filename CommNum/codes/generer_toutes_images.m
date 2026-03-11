@@ -3,10 +3,15 @@
 
 clear all; close all; clc;
 
+% IMPORTANT: Ajouter le dossier courant au path MATLAB
+addpath(pwd);
+
 fprintf('========================================\n');
 fprintf('  Génération de toutes les images\n');
 fprintf('  Projet Communications Numériques\n');
 fprintf('========================================\n\n');
+
+fprintf('Dossier de travail: %s\n\n', pwd);
 
 %% Créer le dossier images s'il n'existe pas
 if ~exist('../images', 'dir')
@@ -57,6 +62,42 @@ try
     fprintf('✓ Q7: OK\n\n');
 catch ME
     fprintf('✗ Erreur Q7: %s\n\n', ME.message);
+end
+
+%% Test Q11-Q15 (Canal et Récepteur)
+fprintf('--- Exécution: Test Q11-Q15 ---\n');
+try
+    test_Q11_Q15_chaine_complete;
+    fprintf('✓ Q11-Q15: OK\n\n');
+catch ME
+    fprintf('✗ Erreur Q11-Q15: %s\n\n', ME.message);
+end
+
+%% Test Q16-Q18 (Performances TEB)
+fprintf('--- Exécution: Test Q16-Q18 ---\n');
+try
+    test_Q16_Q17_Q18;
+    fprintf('✓ Q16-Q18: OK\n\n');
+catch ME
+    fprintf('✗ Erreur Q16-Q18: %s\n\n', ME.message);
+end
+
+%% Test Q19-Q21 (Modulation)
+fprintf('--- Exécution: Test Q19-Q21 ---\n');
+try
+    test_Q19_Q21_modulation;
+    fprintf('✓ Q19-Q21: OK\n\n');
+catch ME
+    fprintf('✗ Erreur Q19-Q21: %s\n\n', ME.message);
+end
+
+%% Test Q22-Q24 (Comparaison modulations)
+fprintf('--- Exécution: Test Q22-Q24 ---\n');
+try
+    test_Q22_Q23_Q24;
+    fprintf('✓ Q22-Q24: OK\n\n');
+catch ME
+    fprintf('✗ Erreur Q22-Q24: %s\n\n', ME.message);
 end
 
 fprintf('========================================\n');

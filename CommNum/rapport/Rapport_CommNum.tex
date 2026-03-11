@@ -355,7 +355,245 @@ La fonction émetteur intègre toutes les étapes précédentes en une seule fon
 
 \newpage
 
-\section{Partie 2 : Propriétés des signaux en bande de base}
+\section{Partie 2 : Canal et Récepteur}
+
+\subsection{Canal avec bruit AWGN (Q11)}
+
+Le canal de transmission introduit un bruit blanc gaussien additif (AWGN) qui dégrade le signal.
+
+\subsubsection{Modèle du canal}
+
+\begin{equation}
+    y(t) = x(t) + b(t)
+\end{equation}
+
+où $b(t)$ est un bruit blanc gaussien de variance $\sigma^2 = \frac{N_0}{2}$.
+
+\subsubsection{Rapport signal sur bruit}
+
+Le rapport $\frac{E_b}{N_0}$ (énergie par bit sur densité spectrale de bruit) est donné en dB :
+
+\begin{equation}
+    \frac{E_b}{N_0}_{dB} = 10 \log_{10}\left(\frac{E_b}{N_0}\right)
+\end{equation}
+
+La variance du bruit est calculée par :
+
+\begin{equation}
+    \sigma^2 = \frac{N_0}{2} = \frac{E_b}{2 \cdot (E_b/N_0)}
+\end{equation}
+
+\subsection{Filtre de réception (Q12)}
+
+Le filtre de réception optimal est le filtre adapté, qui maximise le rapport signal sur bruit.
+
+\subsubsection{Filtre adapté}
+
+Pour un filtre d'émission $h_e(t)$, le filtre de réception optimal est :
+
+\begin{equation}
+    h_r(t) = h_e(T - t)
+\end{equation}
+
+C'est la version retournée temporellement du filtre d'émission.
+
+\subsection{Échantillonnage (Q13)}
+
+Après filtrage, le signal est échantillonné aux instants optimaux $t = kT$ pour récupérer les symboles.
+
+\subsubsection{Formule}
+
+\begin{equation}
+    z_k = z(kT) \quad \text{pour } k \in [0, K-1]
+\end{equation}
+
+\subsection{Décision (Q14)}
+
+La décision consiste à estimer le symbole émis à partir de l'échantillon reçu.
+
+\subsubsection{Critère de décision}
+
+Le symbole estimé $\hat{a}_k$ est celui du dictionnaire le plus proche de $\frac{z_k}{E_{hr}}$ :
+
+\begin{equation}
+    \hat{a}_k = \arg\min_{a \in \text{dict}} \left| \frac{z_k}{E_{hr}} - a \right|
+\end{equation}
+
+\subsection{Récepteur complet (Q15)}
+
+Le récepteur intègre toutes les étapes de traitement du signal reçu.
+
+\textbf{Étapes :}
+\begin{enumerate}
+    \item Filtrage de réception (Q12)
+    \item Échantillonnage (Q13)
+    \item Décision (Q14)
+    \item Décodage symboles $\rightarrow$ bits (Q2)
+\end{enumerate}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.95\textwidth]{../images/Q11_Q15_chaine_complete.png}
+    \caption{Chaîne complète : émetteur, canal, récepteur}
+    \label{fig:chaine_complete}
+\end{figure}
+
+\newpage
+
+\section{Partie 3 : Performances}
+
+\subsection{Taux d'Erreur Binaire (Q16)}
+
+Le TEB mesure la qualité de la transmission.
+
+\subsubsection{Définition}
+
+\begin{equation}
+    TEB = \frac{\text{nombre de bits mal transmis}}{\text{nombre total de bits émis}}
+\end{equation}
+
+\subsubsection{TEB théorique pour BPSK}
+
+\begin{equation}
+    TEB_{theo} = \frac{1}{2} \text{erfc}\left(\sqrt{\frac{E_b}{N_0}}\right)
+\end{equation}
+
+\subsection{Influence du filtre (Q17)}
+
+Différents filtres de mise en forme ont des performances différentes en présence de bruit.
+
+\textbf{Observations :}
+\begin{itemize}
+    \item Le filtre NRZ offre de bonnes performances
+    \item Le filtre RZ a une énergie réduite (facteur 1/2)
+    \item Le filtre biphase a une énergie constante mais une bande plus large
+\end{itemize}
+
+\subsection{Influence du dictionnaire (Q18)}
+
+La taille du dictionnaire $M$ influence directement les performances.
+
+\textbf{Résultats :}
+\begin{itemize}
+    \item $M = 2$ : meilleures performances (TEB le plus faible)
+    \item $M = 4$ : performances intermédiaires
+    \item $M = 8$ : performances dégradées (plus d'énergie nécessaire)
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.95\textwidth]{../images/Q16_Q17_Q18_TEB.png}
+    \caption{Performances : TEB en fonction de $E_b/N_0$}
+    \label{fig:performances}
+\end{figure}
+
+\newpage
+
+\section{Partie 4 : Transmission en bande modulée}
+
+\subsection{Émetteur modulé (Q19)}
+
+La modulation permet de transposer le signal en bande de base vers une fréquence porteuse.
+
+\subsubsection{Principe}
+
+Le signal modulé s'écrit :
+
+\begin{equation}
+    e(t) = I(t) \cos(2\pi f_0 t) - Q(t) \sin(2\pi f_0 t)
+\end{equation}
+
+où :
+\begin{itemize}
+    \item $I(t)$ : composante en phase (partie réelle des symboles)
+    \item $Q(t)$ : composante en quadrature (partie imaginaire des symboles)
+    \item $f_0$ : fréquence porteuse
+\end{itemize}
+
+\subsubsection{Symboles complexes}
+
+Les symboles sont représentés dans le plan complexe :
+
+\begin{equation}
+    \alpha_k = a_k^I + j \cdot a_k^Q
+\end{equation}
+
+\subsection{Canal modulé (Q20)}
+
+Le canal ajoute un bruit au signal modulé, identique au cas bande de base.
+
+\subsection{Récepteur modulé (Q21)}
+
+Le récepteur démodule le signal en multipliant par les porteuses en phase et en quadrature.
+
+\subsubsection{Démodulation}
+
+\begin{align}
+    r_I(t) &= r(t) \cdot 2\cos(2\pi f_0 t) \\
+    r_Q(t) &= -r(t) \cdot 2\sin(2\pi f_0 t)
+\end{align}
+
+Après filtrage passe-bas, on récupère $I(t)$ et $Q(t)$.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.95\textwidth]{../images/Q19_Q21_modulation.png}
+    \caption{Modulation : composantes I/Q, signal modulé, plan complexe}
+    \label{fig:modulation}
+\end{figure}
+
+\newpage
+
+\subsection{Comparaison des modulations (Q22-Q24)}
+
+\subsubsection{Q22 : Plan complexe}
+
+Les différentes modulations se distinguent par la position de leurs symboles dans le plan complexe.
+
+\textbf{Modulations étudiées :}
+\begin{itemize}
+    \item \textbf{BPSK} : 2 symboles sur l'axe réel
+    \item \textbf{QPSK} : 4 symboles aux coins d'un carré
+    \item \textbf{8-PSK} : 8 symboles sur un cercle
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.95\textwidth]{../images/Q22_plan_complexe.png}
+    \caption{Q22 : Symboles dans le plan complexe pour différentes modulations}
+    \label{fig:plan_complexe}
+\end{figure}
+
+\subsubsection{Q23 : Densité Spectrale de Puissance}
+
+La DSP permet d'analyser l'occupation spectrale de chaque modulation.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.95\textwidth]{../images/Q23_DSP.png}
+    \caption{Q23 : DSP des signaux modulés}
+    \label{fig:dsp}
+\end{figure}
+
+\subsubsection{Q24 : Performances comparées}
+
+Le TEB permet de comparer les performances des différentes modulations.
+
+\textbf{Résultats :}
+\begin{itemize}
+    \item BPSK et QPSK ont les mêmes performances (même distance entre symboles)
+    \item 8-PSK a des performances dégradées (symboles plus proches)
+    \item Les courbes expérimentales suivent bien la théorie
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{../images/Q24_TEB_modulations.png}
+    \caption{Q24 : TEB des différentes modulations}
+    \label{fig:teb_modulations}
+\end{figure}
+
+\newpage
 
 \subsection{Analyse spectrale (Q8)}
 
@@ -409,28 +647,76 @@ Pour un même filtre (par exemple NRZ) :
 \section*{Conclusion}
 \addcontentsline{toc}{section}{Conclusion}
 
-Ce projet nous a permis d'étudier en profondeur une chaîne de transmission numérique en bande de base. Nous avons implémenté toutes les fonctions nécessaires à l'émission d'un signal numérique, depuis la conversion des bits en symboles jusqu'à la génération du signal physique.
+Ce projet nous a permis d'étudier de manière exhaustive une chaîne de communication numérique complète, depuis l'émission jusqu'à la réception, en passant par un canal bruité.
 
 \subsection*{Principaux résultats}
 
+\textbf{Partie 1 : L'émetteur}
+\begin{itemize}
+    \item Implémentation réussie de la conversion bits/symboles avec différents dictionnaires
+    \item Maîtrise de quatre types de filtres de mise en forme (NRZ, RZ, biphase, RCS)
+    \item Calcul de l'énergie moyenne par bit pour différentes configurations
+\end{itemize}
+
+\textbf{Partie 2 : Canal et récepteur}
+\begin{itemize}
+    \item Modélisation d'un canal AWGN avec contrôle du rapport $E_b/N_0$
+    \item Implémentation d'un récepteur optimal avec filtre adapté
+    \item Décision par distance minimale pour estimer les symboles
+\end{itemize}
+
+\textbf{Partie 3 : Performances}
+\begin{itemize}
+    \item Calcul du TEB expérimental et comparaison avec la théorie
+    \item Analyse de l'influence du filtre sur les performances
+    \item Étude de l'impact de la taille du dictionnaire $M$ sur le TEB
+    \item Validation : les courbes expérimentales suivent bien la théorie
+\end{itemize}
+
+\textbf{Partie 4 : Transmission en bande modulée}
+\begin{itemize}
+    \item Implémentation de modulations numériques (BPSK, QPSK, 8-PSK)
+    \item Analyse des symboles dans le plan complexe
+    \item Étude de la densité spectrale de puissance
+    \item Comparaison des performances des différentes modulations
+\end{itemize}
+
+\subsection*{Observations clés}
+
 \begin{enumerate}
-    \item \textbf{Conversion bits/symboles :} Nous avons maîtrisé les différents types de dictionnaires (M-aire, antipolaire, unipolaire) et leur impact sur la transmission.
+    \item \textbf{Compromis énergie/bande :} Plus $M$ augmente, plus l'énergie par bit augmente, mais la bande passante diminue.
     
-    \item \textbf{Filtres de mise en forme :} Nous avons comparé quatre types de filtres (NRZ, RZ, biphase, RCS) et analysé leurs propriétés énergétiques et spectrales.
+    \item \textbf{Filtre adapté :} Le récepteur optimal utilise un filtre adapté $h_r(t) = h_e(T-t)$ qui maximise le rapport signal/bruit.
     
-    \item \textbf{Énergie par bit :} Nous avons calculé l'énergie moyenne par bit pour différentes configurations et observé qu'elle augmente avec la taille du dictionnaire.
+    \item \textbf{Performances :} Le TEB diminue exponentiellement avec $E_b/N_0$, conformément à la théorie.
     
-    \item \textbf{Propriétés spectrales :} Nous avons vérifié que les signaux générés sont bien en bande de base et analysé l'influence des paramètres sur la largeur de bande.
+    \item \textbf{Modulations :} BPSK et QPSK offrent les mêmes performances, tandis que 8-PSK est moins robuste au bruit.
 \end{enumerate}
+
+\subsection*{Compétences acquises}
+
+Ce projet nous a permis de :
+\begin{itemize}
+    \item Maîtriser les concepts fondamentaux des communications numériques
+    \item Implémenter une chaîne de transmission complète sous MATLAB
+    \item Analyser les performances d'un système de communication
+    \item Comprendre les compromis entre efficacité spectrale et robustesse
+    \item Valider expérimentalement les résultats théoriques
+\end{itemize}
 
 \subsection*{Perspectives}
 
-Ce travail constitue une base solide pour l'étude de systèmes de communication plus complexes, notamment :
+Ce travail constitue une base solide pour l'étude de systèmes plus avancés :
 \begin{itemize}
-    \item L'ajout d'un canal bruité (AWGN)
-    \item L'implémentation d'un récepteur avec démodulation
-    \item L'étude des performances en termes de taux d'erreur binaire (TEB)
-    \item L'optimisation des paramètres pour minimiser la bande passante tout en maintenant une bonne qualité de transmission
+    \item Codes correcteurs d'erreurs (codes de Hamming, codes convolutifs, turbo-codes)
+    \item Égalisation pour canaux à trajets multiples
+    \item Modulations adaptatives (AMC - Adaptive Modulation and Coding)
+    \item Systèmes MIMO (Multiple-Input Multiple-Output)
+    \item OFDM (Orthogonal Frequency Division Multiplexing)
 \end{itemize}
+
+\vspace{1cm}
+
+\textbf{Conclusion finale :} Ce projet nous a permis de comprendre en profondeur le fonctionnement d'une chaîne de communication numérique et de valider expérimentalement les concepts théoriques étudiés en cours. Les résultats obtenus sont conformes à la théorie et démontrent l'importance du choix des paramètres (filtre, modulation, dictionnaire) sur les performances du système.
 
 \end{document}

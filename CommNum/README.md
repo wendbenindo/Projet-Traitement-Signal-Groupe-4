@@ -70,10 +70,25 @@ compiler_rapport.bat
 - **Q6:** Énergie moyenne par bit
 - **Q7:** Émetteur complet
 
-### Partie 2: Propriétés des signaux
-- **Q8:** Analyse spectrale (DSP, bande de base)
-- **Q9:** Influence du dictionnaire sur la largeur de bande
-- **Q10:** Influence de M sur la largeur de bande
+### Partie 2: Canal et Récepteur
+- **Q11:** Canal avec bruit AWGN
+- **Q12:** Filtre de réception (filtre adapté)
+- **Q13:** Échantillonnage aux instants optimaux
+- **Q14:** Décision par distance minimale
+- **Q15:** Récepteur complet
+
+### Partie 3: Performances
+- **Q16:** TEB avec filtre NRZ et dictionnaire antipolaire
+- **Q17:** Influence du filtre sur le TEB
+- **Q18:** Influence du dictionnaire (M=2, 4, 8) sur le TEB
+
+### Partie 4: Transmission en bande modulée
+- **Q19:** Émetteur modulé (I/Q, modulation)
+- **Q20:** Canal modulé
+- **Q21:** Récepteur modulé (démodulation)
+- **Q22:** Plan complexe des symboles (BPSK, QPSK, 8-PSK)
+- **Q23:** Densité Spectrale de Puissance (DSP)
+- **Q24:** Comparaison des performances (TEB)
 
 ## 🔧 Fonctions principales
 
@@ -86,6 +101,14 @@ compiler_rapport.bat
 | `filtre_emission` | Applique le filtre (convolution) |
 | `energie_moyenne_bit` | Calcule E_bit |
 | `emetteur` | Émetteur complet (intègre tout) |
+| `canal` | Ajoute bruit AWGN |
+| `filtre_reception` | Filtre adapté |
+| `echantillonnage` | Échantillonne aux instants kT |
+| `decision` | Décision par distance minimale |
+| `recepteur` | Récepteur complet |
+| `calcul_TEB` | Calcule le taux d'erreur binaire |
+| `emetteur_mod` | Émetteur modulé (I/Q) |
+| `recepteur_mod` | Récepteur modulé (démodulation) |
 
 ## 📊 Résultats attendus
 
@@ -94,6 +117,12 @@ compiler_rapport.bat
 - `Q4_Q5_filtres.png` - Comparaison des filtres
 - `Q7_emetteur_complet.png` - Signal émis
 - `Q7_comparaison_filtres.png` - Comparaison
+- `Q11_Q15_chaine_complete.png` - Chaîne complète
+- `Q16_Q17_Q18_TEB.png` - Performances TEB
+- `Q19_Q21_modulation.png` - Modulation I/Q
+- `Q22_plan_complexe.png` - Symboles complexes
+- `Q23_DSP.png` - Densité spectrale
+- `Q24_TEB_modulations.png` - Comparaison modulations
 
 ### Rapport PDF
 - Théorie complète

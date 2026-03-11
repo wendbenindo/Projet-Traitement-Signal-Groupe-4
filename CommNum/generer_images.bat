@@ -5,7 +5,7 @@ echo ========================================
 echo.
 
 cd codes
-matlab -batch "generer_toutes_images" -wait
+matlab -batch "addpath(pwd); generer_toutes_images" -wait
 
 if %ERRORLEVEL% EQU 0 (
     echo.
